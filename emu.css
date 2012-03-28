@@ -1,0 +1,89 @@
+/*******************************************
+* Page structure
+*******************************************/
+
+html {
+	background-color: #111;
+}
+
+#emulator {
+	/* Styling */
+	width: 800px;
+	height: 600px;
+	margin: auto auto;
+	padding-bottom: 8px;
+
+	background-color: #EEE;
+	border: 1px solid black;
+
+	/* flexbox setup */
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+
+	display: box;
+	box-orient: horizontal;
+}
+
+#emulator > div {
+	/* Styling */
+	height: inherit;
+	margin: 4px;
+	
+	/* flexbox setup */
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;	
+}
+
+#left_col {
+	/* flexbox setup */
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+
+	display: -moz-box;
+	-moz-box-orient: vertical;
+
+	display: box;
+	box-orient: vertical;
+}
+
+#left_col > div {
+	/* Styling */
+	width: inherit;	
+
+	/* flexbox setup */
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;	
+}
+
+
+#registers {
+	/* Styling */	
+	background-color: #E01B3C;
+}
+
+#program {
+	/* Styling */
+	margin-top: 8px;
+
+	background-color: #29D649;
+}
+
+div#program {
+	/* flexbox setup */
+	-webkit-box-flex: 2;
+	-moz-box-flex: 2;
+	box-flex: 2;
+}
+
+#memory_block {
+	/* Styling */
+	width: 100%;
+	height: 100%;
+	
+	background-color: #3D80D9;
+}
