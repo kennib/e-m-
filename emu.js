@@ -79,4 +79,37 @@ function Memory(size) {
 		
 		return unit;
 	}
+	
+	// Returns the ranges of units of memory that have been explicitly set
+	// Format is a list of lists of length 2 containing start and end addresses
+	// useful for the memory display scrollbar
+	this.getUnitRanges = function() {
+		var ranges = [];
+		var range = null;
+		
+		// Loop through each defined unit of memory
+		for (u in this.memoryArray) {
+			u = parseInt(u);
+			
+			// If there is no range, set it to the current Unit
+			if (!range) {
+				range = [u, u];
+			}
+			// Else check if the unit is not adjacent to
+			// the last item in the current range
+			else if (u != ++range[1]) {
+				// Store this range
+				ranges.push(range);
+				// Start new range
+				range = [u, u];
+			}
+		}
+		
+		if (range) {
+			range[1]++;
+			ranges.push(range);		
+		}
+		
+		return ranges;
+	}
 }

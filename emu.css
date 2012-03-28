@@ -87,3 +87,40 @@ div#program {
 	
 	background-color: #3D80D9;
 }
+
+/*******************************************
+* 
+* e-mu Display Object CSS
+*
+*******************************************/
+
+
+/*******************************************
+* Memory Display
+*******************************************/
+
+#memory_display {
+	/* Styling */
+	height: inherit;
+}
+
+#memory_scrollbar {
+	/* Styling */
+	height: inherit;
+}
+
+/*******************************************
+* Memory Display Scrollbar Highlighting
+*******************************************/
+
+.scrollbar_highlight {
+	/* Styling */
+	display: block;
+	position: absolute;
+	width: inherit;
+}
+
+.data.scrollbar_highlight {
+	/* Styling */
+	background-color: #E01B3C;
+}

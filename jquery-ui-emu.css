@@ -3,3 +3,7 @@
 	height: 8px;
 	margin-bottom: -4px;
 }
+
+.ui-slider .ui-slider-range {
+	background: rgba(255, 255, 255, 0.5);
+}
