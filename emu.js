@@ -77,5 +77,6 @@ function Memory(size) {
 			this.memoryArray[address] = unit;
 		}
 		
+		return unit;
 	}
 }
