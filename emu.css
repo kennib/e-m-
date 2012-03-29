@@ -102,11 +102,95 @@ div#program {
 #memory_display {
 	/* Styling */
 	height: inherit;
+
+	/* flexbox setup */
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+
+	display: box;
+	box-orient: horizontal;
 }
 
 #memory_scrollbar {
 	/* Styling */
+	position: relative;
 	height: inherit;
+
+	/* flexbox setup */
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;
+}
+
+/*******************************************
+* Memory Units
+*******************************************/
+
+#memory_units {
+	/* Styling */
+	overflow: auto;
+	
+	/* flexbox setup */
+	-webkit-box-flex: 10;
+	-moz-box-flex: 10;
+	box-flex: 10;
+
+	/* flexbox setup */
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+
+	display: -moz-box;
+	-moz-box-orient: vertical;
+
+	display: box;
+	box-orient: vertical;
+}
+
+.memory_unit {
+	/* Styling */
+	display: block;
+	overflow: hidden;
+	width: inherit;
+	min-height: 1.3em;
+	padding: 0px;
+	
+	font-size: 1.1em;
+	
+	background-color: #EEE;		
+	border: 1px solid black;
+
+	/* flexbox setup */
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;
+}
+
+.memory_unit > span {
+	/* Styling */
+	display: inline-block;
+	height: auto;
+	margin: 0px;
+	padding: 3px;
+}
+
+.memory_unit > .address {
+	/* Styling */
+	width: 4em;	
+	
+	color: #EEE;
+
+	background-color: #3D80D9;		
+}
+
+.memory_unit_set > .address {
+	background-color: #E01B3C;
+}
+
+.memory_unit > .value {
+	margin-left: 10px;
 }
 
 /*******************************************
@@ -117,7 +201,7 @@ div#program {
 	/* Styling */
 	display: block;
 	position: absolute;
-	width: inherit;
+	width: 100%;
 }
 
 .data.scrollbar_highlight {

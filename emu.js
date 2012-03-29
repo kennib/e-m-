@@ -33,8 +33,10 @@ function Label(name, address) {
 function MemoryUnit(address) {
 	// MemoryUnit properties
 	this.address = address;
-	this.value = 0;
-	
+	this.value = 0;	
+	// Has the value of this element been set?
+	// useful for highlighting
+	this.set = false;
 	
 	// MemoryUnit methods
 	
@@ -46,6 +48,12 @@ function MemoryUnit(address) {
 	// Setter for value of the MemoryUnit
 	this.setValue = function(value) {
 		this.value = value;
+		this.set = true;
+	}
+
+	// Returns the unit's address in hex
+	this.addressHex = function() {
+		return this.address.toString(16).toUpperCase();
 	}
 }
 
@@ -67,12 +75,12 @@ function Memory(size) {
 	
 	// Getter for value of the MemoryUnit
 	// creates new, default memory if it does not exist yet
-	this.getUnit = function(address) {
+	this.getUnit = function(address, create) {
 		var unit = this.memoryArray[address];
 		
 		// If the memory unit doesn't exist
 		// Create a new, default unit
-		if (!unit) {
+		if (!unit && create) {
 			unit = new MemoryUnit(address);
 			this.memoryArray[address] = unit;
 		}
@@ -96,8 +104,9 @@ function Memory(size) {
 				range = [u, u];
 			}
 			// Else check if the unit is not adjacent to
-			// the last item in the current range
-			else if (u != ++range[1]) {
+			// the last item in the curren range
+			// or if it has not been explicilty set
+			else if (u != ++range[1] || !this.memoryArray[u].set) {
 				// Store this range
 				ranges.push(range);
 				// Start new range
