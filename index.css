@@ -1,0 +1,29 @@
+/*******************************************
+* Page structure
+*******************************************/
+
+#content {
+	font-family: sans-serif;
+	background: #F0F0E0;
+	width: 600px;
+	margin: 20px auto;
+	padding: 5px 20px 15px;
+}
+
+/*******************************************
+* Text and titles
+*******************************************/
+
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+h1 {
+	text-align: center;
+	margin: 5px;
+}
