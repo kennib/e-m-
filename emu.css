@@ -159,7 +159,7 @@ div#program {
 	
 	font-size: 1.1em;
 	
-	background-color: #EEE;		
+	background-color: #EEE;
 	border: 1px solid black;
 
 	/* flexbox setup */
@@ -171,7 +171,7 @@ div#program {
 .memory_unit > span {
 	/* Styling */
 	display: inline-block;
-	height: auto;
+	height: 100%;
 	margin: 0px;
 	padding: 3px;
 }
@@ -196,6 +196,11 @@ div#program {
 /*******************************************
 * Memory Display Scrollbar Highlighting
 *******************************************/
+
+#memory_scrollbar {
+	/* Styling */
+	background: #3D80D9;
+}
 
 .scrollbar_highlight {
 	/* Styling */

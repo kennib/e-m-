@@ -4,6 +4,15 @@
 	margin-bottom: -4px;
 }
 
+.ui-slider .ui-slider-handle:nth-of-type(1) {
+	/* Styling */
+	left: 25px;
+}
+
 .ui-slider .ui-slider-range {
+	/* Styling */
+	margin-bottom: 0px;
+	padding-top: 2px;
+
 	background: rgba(255, 255, 255, 0.5);
 }
