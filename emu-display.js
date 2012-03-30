@@ -45,7 +45,7 @@ var MemoryScrollbar = {
 		// Set a maximum range restriction on scrolling
 		this.container.bind("slide", {memoryScrollbar: this},
 			function(event, ui) {
-				event.data.memoryScrollbar.maxRange(event, ui);
+				event.data.memoryScrollbar.maxRange(ui);
 			}
 		);
 	},
@@ -102,7 +102,7 @@ var MemoryScrollbar = {
 	// when a handle is pulled out of the maximum range
 	// the other handle is pulled with it
 	// Returns if the scroll bar is within the range
-	maxRange: function(event, ui) {
+	maxRange: function(ui) {
 		// Ignore any attempts to restrict range if already doing so
 		if (this.sliding)
 			return false;
@@ -230,8 +230,9 @@ var MemoryDisplay = {
 		// Make units refresh on scroll
 		this.container.MemoryScrollbar("container").bind("slidechange", {memoryDisplay: this},
 			function(event, ui) {
-				var valid = event.data.memoryDisplay.container.MemoryDisplay("maxRange", event, ui);
-				// Only display units on a valid scroll state
+				var valid = event.data.memoryDisplay.container.MemoryScrollbar("maxRange", ui);
+				// Only display units if the slider is in a valid state
+				// (i.e., not greater than max range)
 				if (valid)
 					event.data.memoryDisplay.refreshUnits();
 			}
