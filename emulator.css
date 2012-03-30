@@ -170,6 +170,8 @@ div#program {
 	height: 100%;
 	margin: 0px;
 	padding: 3px;
+
+	font-family: monospace;
 }
 
 .memory_unit > .address {
@@ -186,7 +188,8 @@ div#program {
 }
 
 .memory_unit > .value {
-	margin-left: 10px;
+	width: 4em;
+	padding-left: 10px;
 }
 
 /*******************************************

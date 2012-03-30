@@ -156,7 +156,7 @@ var MemoryUnitDisplay = {
 			memUnit.addClass("memory_unit_set");
 		
 		// Add address and value information
-		memUnit.append('<span class="address">'+this.memoryUnit.addressHex()+'</span>');
+		memUnit.append('<span class="address">'+this.memoryUnit.addressHex(4)+'</span>');
 		memUnit.append('<span class="value">'+this.memoryUnit.getValue()+'</span>');
 	
 		this.element.append(memUnit);

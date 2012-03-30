@@ -52,8 +52,14 @@ function MemoryUnit(address) {
 	}
 
 	// Returns the unit's address in hex
-	this.addressHex = function() {
-		return this.address.toString(16).toUpperCase();
+	// pads with leading zeros if given parameter
+	this.addressHex = function(padding) {
+		if (!padding) padding = 0;
+		for (var pad=""; pad.length < padding; pad+="0");
+		
+		var hex = this.address.toString(16).toUpperCase();
+		
+		return (pad+hex).slice(-padding);
 	}
 }
 
