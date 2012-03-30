@@ -1,4 +1,40 @@
 /*******************************************************
+* Register Object
+* 
+* Has a size (bits) and values
+* Method to get a list of bits in its value
+********************************************************/
+
+function Register(bits) {
+	// Register Properties
+	this.bits = bits;
+	this.value = 0;
+	
+	// Register Methods
+	
+	// Getter for the register's value
+	this.getValue = function() {
+		return this.value;
+	}
+
+	// Setter for the register's value
+	this.setValue = function(value) {
+		this.value = value;
+	}
+	
+	// Method to get bits in Register's value
+	this.getBits = function() {
+		var bits = [];
+		for (var b=0; b<this.bits; b++) {
+			var bit = (this.value >> b) & 1;
+			bits.unshift(bit);
+		}
+		
+		return bits;
+	}
+}
+
+/*******************************************************
 * Label Object
 * 
 * Has a name and a memory address
