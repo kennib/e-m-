@@ -40,7 +40,8 @@ $(document).ready(function() {
 		var x = Math.floor(Math.random()*memory.size);
 		for (var p=0; p<chunk_size; p++) {
 			var unit = memory.getUnit(x+p, true);
-			unit.setValue(z);
+			if (unit)
+				unit.setValue(z);
 		}
 	}
 

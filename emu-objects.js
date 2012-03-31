@@ -138,6 +138,10 @@ function Memory(size) {
 	// Getter for value of the MemoryUnit
 	// creates new, default memory if it does not exist yet
 	this.getUnit = function(address, create) {
+		// Check that address is in range
+		if (!(address < this.size))
+			return null;
+
 		var unit = this.memoryArray[address];
 		
 		// If the memory unit doesn't exist
@@ -149,6 +153,28 @@ function Memory(size) {
 		
 		return unit;
 	}
+	
+	// Setter for value of the MemoryUnit
+	// creates new memory unit if it doesn't exist yet
+	this.setUnit = function(address, value) {
+		// Check that address is in range
+		if (!(address < this.size))
+			return null;
+
+		var unit = this.memoryArray[address];
+
+		// Create new unit if one doesn't exist
+		if (!unit) {
+			unit = new MemoryUnit(address);
+			this.memoryArray[address] = unit;
+		}
+		
+		// Set value
+		unit.setValue(value);
+		
+		return value;
+	}
+	
 	
 	// Returns the ranges of units of memory that have been explicitly set
 	// Format is a list of lists of length 2 containing start and end addresses
