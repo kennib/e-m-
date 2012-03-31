@@ -48,7 +48,8 @@
 
 #left_col > div {
 	/* Styling */
-	width: inherit;	
+	overflow: auto;
+	width: inherit;
 
 	/* flexbox setup */
 	-webkit-box-flex: 1;
@@ -62,14 +63,26 @@
 	background-color: #E01B3C;
 }
 
-#program {
+#program_editor {
 	/* Styling */
+	max-width: 470px;
 	margin-top: 8px;
 
-	background-color: #29D649;
+	background: #29D649;
+
+
+	/* flexbox setup */
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+
+	display: -moz-box;
+	-moz-box-orient: vertical;
+
+	display: box;
+	box-orient: vertical;	
 }
 
-div#program {
+div#program_editor {
 	/* flexbox setup */
 	-webkit-box-flex: 2;
 	-moz-box-flex: 2;
@@ -79,6 +92,7 @@ div#program {
 #memory_block {
 	/* Styling */
 	width: 100%;
+	min-width:300px;
 	height: 100%;
 	
 	background-color: #3D80D9;
@@ -89,6 +103,28 @@ div#program {
 * e-mu Display Object CSS
 *
 *******************************************/
+
+/*******************************************
+* Program Editor
+*******************************************/
+#program_editor > .tab {
+	/* Styling */
+	height: 100%;
+
+	/* flexbox setup */
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;
+}
+
+#program_editor > .tab > textarea {
+	/* Styling */
+	width: 100%;
+	max-width: 100%;
+	height: 200px;
+	max-height: 100%;
+}
+
 
 /*******************************************
 * Register Display

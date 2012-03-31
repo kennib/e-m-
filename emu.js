@@ -59,5 +59,8 @@ $(document).ready(function() {
 	$("#register_block").registers({
 		registers: registers
 	});
+	
+	// Create the tabbed program editor
+	$("#program_editor").tabs();
 });
 
