@@ -220,6 +220,6 @@ function Memory(size) {
 
 function MicroController(properties) {
 	// MicroController Components
-	this.registers = new Register(properties.registers);
+	this.registers = new Registers(properties.registers);
 	this.memory = new Memory(properties.memorySize);
 }

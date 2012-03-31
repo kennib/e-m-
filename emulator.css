@@ -57,8 +57,8 @@
 }
 
 
-#registers {
-	/* Styling */	
+#register_block {
+	/* Styling */
 	background-color: #E01B3C;
 }
 
@@ -90,6 +90,61 @@ div#program {
 *
 *******************************************/
 
+/*******************************************
+* Register Display
+*******************************************/
+
+#register_display {
+	/* Styling */
+	padding: 3px;
+}
+
+.register {
+	/* Styling */
+	margin: 2px;
+	
+	background-color: #EEE;
+	border: 1px solid black;
+		
+	/* flexbox setup */
+	display: -webkit-box;
+	-webkit-box-orient: horizontal;
+
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+
+	display: box;
+	box-orient: horizontal;	
+}
+
+.register > .register_name {
+	/* Styling */
+	display: block;
+	width: 40px;
+	padding-left: 3px;
+
+	color: #EEE;
+	
+	background-color: #111;
+}
+
+.register > .bit_box {
+	/* Styling */
+	padding: 2px;
+	
+	text-align: center;
+	font-size: 1.1em;
+	font-family: monospace;
+
+	border-left: 1px solid black;
+
+	/* flexbox setup */
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	box-flex: 1;			
+}
+
+
 
 /*******************************************
 * Memory Display
@@ -113,12 +168,13 @@ div#program {
 #memory_scrollbar {
 	/* Styling */
 	position: relative;
+	width: 42px;
 	height: inherit;
 
 	/* flexbox setup */
-	-webkit-box-flex: 1;
+	/*-webkit-box-flex: 1;
 	-moz-box-flex: 1;
-	box-flex: 1;
+	box-flex: 1;*/
 }
 
 /*******************************************

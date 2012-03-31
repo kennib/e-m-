@@ -1,5 +1,85 @@
 /*******************************************************
 *
+* Register Display Components
+*
+********************************************************/
+
+/*******************************************************
+* Registers Display - Register Display
+********************************************************/
+
+var RegisterDisplay  = {
+	_init: function(options) {
+		// Display properties
+		this.id = "register_"+this.options.registerName;
+
+		// Data properties
+		this.registerObject = this.options.register;
+		
+		// Create a container for the registers
+		this.container = $(document.createElement('div'));
+		this.container.attr("id", this.id);
+		this.container.addClass("register");
+		this.element.append(this.container);
+		
+		// Add in a name
+		var name = $(document.createElement('span'));
+		name.addClass("register_name");
+		name.html(this.options.registerName);
+		this.container.append(name);
+		
+		// Create boxes for register's bits
+		for (var b=0; b<this.registerObject.bits; b++) {
+			var box = $(document.createElement('div'));
+			box.addClass("bit_box");
+
+			this.container.append(box);
+		}
+		
+		this.displayBits();
+	},
+	
+	// Method to display the bits of the register
+	displayBits: function() {
+		var bits = this.registerObject.getBits();
+		this.container.children(".bit_box").each(function(index) {
+			$(this).html(bits[index]);
+		});
+	}
+}
+
+/*******************************************************
+* Registers Display
+********************************************************/
+
+var RegistersDisplay  = {
+	_init: function() {
+		// Display properties
+		this.id = "register_display";
+
+		// Data properties
+		this.registersObject = this.options.registers;
+		
+		// Create a container for the registers
+		this.container = $(document.createElement('div'));
+		this.container.attr("id", this.id);
+		this.element.append(this.container);
+
+		// Create Register widget
+		$.widget("ui.register", RegisterDisplay);		
+		// Create Registers
+		for (register in this.registersObject.registers) {
+			this.container.register({
+				register: this.registersObject.registers[register],
+				registerName: register
+			});
+		}
+	}
+}
+
+
+/*******************************************************
+*
 * Memory Display Components
 *
 ********************************************************/

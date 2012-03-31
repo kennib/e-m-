@@ -33,6 +33,7 @@ $(document).ready(function() {
 	// Create Microcontroller
 	var mc = new Motorola68HC11();
 	var memory = mc.memory;
+	var registers = mc.registers;
 
     // Check 50 random memory location chunks
 	var chunk_size = 600;
@@ -50,6 +51,13 @@ $(document).ready(function() {
 	// Create the display on the page
 	$("#memory_block").MemoryDisplay({
 		memory: memory
+	});
+
+	// Create display for the registers
+	$.widget("ui.registers", RegistersDisplay);
+	// Create the display on the page
+	$("#register_block").registers({
+		registers: registers
 	});
 });
 
