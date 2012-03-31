@@ -20,7 +20,7 @@ var MemoryScrollbar = {
 		this.sliding = false;
 	
 		// Data properties
-		this.memoryObject = memory;
+		this.memoryObject = this.options.memory;
 
 		// Create a container for the memory scrollbar
 		this.container = $(document.createElement('div'));

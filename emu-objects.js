@@ -49,7 +49,7 @@ function Registers(registers) {
 	// Register Methods
 	
 	// Getter for a register by name
-	this.getRegister(name) {
+	this.getRegister = function(name) {
 		return this.registers[name];
 	}
 }
@@ -183,4 +183,17 @@ function Memory(size) {
 		
 		return ranges;
 	}
+}
+
+
+/*******************************************************
+* MicroController Object
+* 
+* Contains references to the MicroController's registers and memory
+********************************************************/
+
+function MicroController(properties) {
+	// MicroController Components
+	this.registers = new Register(properties.registers);
+	this.memory = new Memory(properties.memorySize);
 }
