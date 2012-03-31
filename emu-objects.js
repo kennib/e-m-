@@ -35,6 +35,26 @@ function Register(bits) {
 }
 
 /*******************************************************
+* Registers Object
+* 
+* Contains references to all the registers
+********************************************************/
+
+function Registers(registers) {
+	// Register Properties
+	
+	// Associative Array for register
+	this.registers = registers;
+	
+	// Register Methods
+	
+	// Getter for a register by name
+	this.getRegister(name) {
+		return this.registers[name];
+	}
+}
+
+/*******************************************************
 * Label Object
 * 
 * Has a name and a memory address
