@@ -1,29 +1,23 @@
 /*******************************************************
-* MicroController Setup - Motorola 68HC11
-********************************************************/
-
-function Motorola68HC11() {
-	// Create Registers
-	var registers = {
-		A: new Register(8),
-		B: new Register(8),
-		X: new Register(16),
-		Y: new Register(16),
-		SP: new Register(16),
-		PC: new Register(16),
-		CC: new Register(8)
-	};
-	
-	return new MicroController({
-		registers: registers,
-		memorySize: 0xFFFF
-	});
-}
-
-
-/*******************************************************
 * Main Display Setup
 ********************************************************/
+
+function basicProgram() {
+	// LDAA
+	mc.memory.setUnit(0x00, 0x86);
+	// with value at 0xF0
+	mc.memory.setUnit(0x01, 0xF0);
+	// which is 0xAA
+	mc.memory.setUnit(0xF0, 0xAA);
+	// Run
+	mc.stepProgram();
+	
+	console.log("Running basic Program");
+	
+	// result
+	var a = mc.registers.getRegister("A").getBits();
+	console.log("Register A:" + a);
+}
 
 $(document).ready(function() {
 	// Create memory object
@@ -31,7 +25,7 @@ $(document).ready(function() {
 	//memory = new Memory(mem_size);
 
 	// Create Microcontroller
-	var mc = new Motorola68HC11();
+	mc = new Motorola68HC11();
 	var memory = mc.memory;
 	var registers = mc.registers;
 
@@ -62,5 +56,6 @@ $(document).ready(function() {
 	
 	// Create the tabbed program editor
 	$("#program_editor").tabs();
+	
+	basicProgram()
 });
-

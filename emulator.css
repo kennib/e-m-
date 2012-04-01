@@ -117,7 +117,7 @@ div#program_editor {
 	box-flex: 1;
 }
 
-#program_editor > .tab > textarea {
+#program_editor > .tab textarea {
 	/* Styling */
 	width: 100%;
 	max-width: 100%;

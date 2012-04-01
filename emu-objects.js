@@ -216,10 +216,66 @@ function Memory(size) {
 * MicroController Object
 * 
 * Contains references to the MicroController's registers and memory
+* Contains a set of operations for the MicroController
+* Has a method to step through the program
 ********************************************************/
 
 function MicroController(properties) {
 	// MicroController Components
-	this.registers = new Registers(properties.registers);
+	this.registers = properties.registers;
 	this.memory = new Memory(properties.memorySize);
+	this.ops = properties.operations;
+	
+	
+	this.programCounter = properties.programCounter;
+	
+	
+	// Method to complete 1 step of a program
+	this.stepProgram = properties.stepProgram;
+}
+
+
+/*******************************************************
+* Operation Object
+* 
+* Has a list of OpCodes, a number of clocks,
+* 	a number of bytes for a particular macro
+* Runs specific actions called by MicroController object
+*	is given a MicroController object and bytes
+********************************************************/
+
+function Operation(properties, operation) {
+	// Operation Properties
+	this.macro = properties.macro;
+	this.opcode = properties.opcode;
+	this.clocks = properties.clocks;
+	this.bytes = properties.bytes;
+	
+	// Method to evaluate the operation
+	// Applied to a specific MicroController
+	this.execute = operation;
+}
+
+/*******************************************************
+* OperationSet Object
+* 
+* Keeps a reference to a set of operations
+* Has methods for creating multiple operations from
+*	a single macro with multiple adressing options
+********************************************************/
+
+function OperationSet() {
+	// OperationSet properties
+	this.operations = new Array();
+	
+	// Method to add a new operation
+	this.addOp = function(operation) {
+		var opCode = operation.opcode;
+		this.operations[opCode.toString()] = operation;
+	}
+	
+	// Method to get an operation
+	this.getOp = function(opCode) {
+		return this.operations[opCode.toString()];
+	}
 }
