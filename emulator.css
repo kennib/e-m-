@@ -219,6 +219,7 @@ div#program_editor {
 
 #memory_units {
 	/* Styling */
+	height: 600px;
 	overflow: auto;
 	
 	/* flexbox setup */
