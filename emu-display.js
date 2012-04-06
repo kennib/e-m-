@@ -22,6 +22,16 @@ var RegisterDisplay  = {
 		this.container.addClass("register");
 		this.element.append(this.container);
 		
+		
+		var widget = this;
+		this.registerObject.onValueChanged = function(){
+			var bits = this.getBits();
+			console.log(widget);
+			widget.container.children(".bit_box").each(function(index) {
+				$(this).html(bits[index]);
+			});
+		};
+		
 		// Add in a name
 		var name = $(document.createElement('span'));
 		name.addClass("register_name");
@@ -66,10 +76,17 @@ var RegistersDisplay  = {
 		this.element.append(this.container);
 
 		// Create Register widget
-		$.widget("ui.register", RegisterDisplay);		
+		$.widget("ui.registerDisplay", RegisterDisplay);
+	
 		// Create Registers
 		for (register in this.registersObject.registers) {
-			this.container.register({
+			console.log(register);
+			console.log(this.registersObject.registers[register]);
+			
+			var widget = $(document.createElement('div'));
+			this.container.append(widget);
+			
+			widget.registerDisplay({
 				register: this.registersObject.registers[register],
 				registerName: register
 			});

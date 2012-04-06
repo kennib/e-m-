@@ -9,7 +9,8 @@ function Register(bits) {
 	// Register Properties
 	this.bits = bits;
 	this.value = 0;
-	
+	this.onValueChanged = null
+		
 	// Register Methods
 	
 	// Getter for the register's value
@@ -20,6 +21,8 @@ function Register(bits) {
 	// Setter for the register's value
 	this.setValue = function(value) {
 		this.value = value;
+		if(this.onValueChanged)
+			this.onValueChanged();
 	}
 	
 	// Method to get bits in Register's value

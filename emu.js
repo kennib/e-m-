@@ -11,7 +11,7 @@ function basicProgram() {
 	// which is 0xAA
 	mc.memory.setUnit(0xF0, 0xAA);
 	// Set X to 0x000F
-	mc.registers.getRegister("X").setValue(0x000F);
+	mc.registers.getRegister("X").setValue(0xF00F);
 
 	mc.memory.setUnit(0xFF, 0x08);
 	// Run
