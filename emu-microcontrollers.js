@@ -27,8 +27,18 @@ function Motorola68HC11() {
 	var stepProgram = function() {
         var opcode = this.memory.getUnit(this.programCounter.value).value;
         this.programCounter.value++;
-		
+
         var op = this.ops.getOp(opcode);
+
+        if(op == undefined) {
+        	opcode = opcode << 8;
+        	opcode += this.memory.getUnit(this.programCounter.value).value;
+        	this.programCounter.value++;
+        	op = this.ops.getOp(opcode);
+        	if(op == /* still */ undefined) {
+        		alert("Invalid opcode.");
+        	}
+        }
 
         var bytes = [];
         for(var b=1; b<op.bytes; b++) {

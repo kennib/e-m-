@@ -4,9 +4,10 @@
 
 function basicProgram() {
 	// LDAA
-	mc.memory.setUnit(0x00, 0xA6);
+	mc.memory.setUnit(0x00, 0x18);
+	mc.memory.setUnit(0x01, 0xA6);
 	// with value at 0xF0
-	mc.memory.setUnit(0x01, 0xF0);
+	mc.memory.setUnit(0x02, 0xF0);
 	// which is 0xAA
 	mc.memory.setUnit(0xF0, 0xAA);
 	// Set X to 0x000F
