@@ -30,10 +30,9 @@ function Motorola68HC11() {
 		
         var op = this.ops.getOp(opcode);
 
-        var bytes = 0;
+        var bytes = [];
         for(var b=1; b<op.bytes; b++) {
-            bytes = bytes << 8;
-            bytes += this.memory.getUnit(this.programCounter.value).value;
+            bytes.push(this.memory.getUnit(this.programCounter.value).value);
             this.programCounter.value++;
         }
 
@@ -51,16 +50,53 @@ function Motorola68HC11() {
 
 	// Takes the properties all versions for the same macro
 	//	with the same basic operation
-	mc.addMultiAddressOp = function(properties, operation) {
-		for (var op=0; op<properties.versions; op++) {
+	mc.addMultiAddressOp = function(properties, evaluation) {
+		for (var mode in properties.modes) {
+			if(mode == "IMM")
+				addressing = function(mc, bytes) {
+					evaluation(mc, bytes);
+				};
+			else if(mode == "DIR")
+				addressing = function(mc, bytes) {
+					var data = [];
+					
+					for(var byte in bytes)
+						data.push(mc.memory.getUnit(bytes[byte], true).value);
+					evaluation(mc, data);
+
+				};
+			else if(mode == "EXT")
+				addressing = function(mc, bytes) {
+					var data = [];
+					for(var b = 0; b < bytes.length; b += 2)
+					{
+						// We assume big-endian storage, so left-shift the first byte read.
+						var byte = bytes[b] << 8 + bytes[b + 1];
+						data.push(mc.memory.getUnit(byte, true).value);
+					}
+					evaluation(mc, data);
+				};
+			else if(mode == "INDX")
+				addressing = function(mc, bytes) {
+					var address = bytes[0] + mc.registers.getRegister("X").value;
+					var data = [mc.memory.getUnit(address, true).value];
+					evaluation(mc, data);
+				};
+			else if(mode == "INDY")
+				addressing = function(mc, bytes) {
+					var address = bytes[0] + mc.registers.getRegister("Y").value;
+					var data = [mc.memory.getUnit(address, true).value];
+					evaluation(mc, data);
+				};
+
 			var operation = new Operation({
 					macro: properties.macro,
-					opcode: properties.opcodes[op],
-					clocks: properties.clocks[op],
-					bytes: properties.bytes[op]
-				}, operation
+					opcode: properties.modes[mode][0],
+					clocks: properties.modes[mode][1],
+					bytes: properties.modes[mode][2],
+				}, addressing
 			);
-
+			
 			mc.ops.addOp(operation);
 		}
 	}
@@ -69,12 +105,13 @@ function Motorola68HC11() {
 	mc.addMultiAddressOp({
 			macro: "LDAA",
 			versions: 5,
-			opcodes: [0x86, 0x96, 0xB6, 0xA6, 0x18A6],
-			clocks: [2, 3, 4, 4, 5],
-			bytes: [2, 2, 3, 2, 3]
-		}, function(mc, bytes) {
-			var mem = mc.memory.getUnit(bytes, true);
-			mc.registers.getRegister("A").setValue(mem.value);
+			modes: {IMM:  [0x86, 2, 2],
+			        DIR:  [0x96, 3, 2],
+			        EXT:  [0xB6, 3, 4],
+			        INDX: [0xA6, 2, 4],
+			        INDY: [0x18A6, 3, 5]}
+		}, function(mc, data) {
+			mc.registers.getRegister("A").setValue(data[0]);
 		}
 	);
 
