@@ -26,7 +26,6 @@ var RegisterDisplay  = {
 		var widget = this;
 		this.registerObject.onValueChanged = function(){
 			var bits = this.getBits();
-			console.log(widget);
 			widget.container.children(".bit_box").each(function(index) {
 				$(this).html(bits[index]);
 			});
@@ -80,9 +79,6 @@ var RegistersDisplay  = {
 	
 		// Create Registers
 		for (register in this.registersObject.registers) {
-			console.log(register);
-			console.log(this.registersObject.registers[register]);
-			
 			var widget = $(document.createElement('div'));
 			this.container.append(widget);
 			
@@ -240,7 +236,7 @@ var MemoryUnitDisplay = {
 	_init: function() {
 		// Data properties
 		this.memoryUnit = this.options.memoryUnit;
-	
+		
 		// Display properties
 		this.id = "memory_unit" + this.memoryUnit.address;
 
@@ -248,15 +244,22 @@ var MemoryUnitDisplay = {
 		var memUnit = $(document.createElement('div'));
 		memUnit.attr("id", this.id);
 		memUnit.addClass("memory_unit");
-		// Give it different style if the unit's data is interesting
-		if (this.memoryUnit.set)
-			memUnit.addClass("memory_unit_set");
-		
-		// Add address and value information
-		memUnit.append('<span class="address">'+this.memoryUnit.addressHex(4)+'</span>');
-		memUnit.append('<span class="value">'+this.memoryUnit.getValue()+'</span>');
-	
 		this.element.append(memUnit);
+		
+		
+		// Add address and value information when value changes
+		this.memoryUnit.onValueChanged = function () {
+			// Empty the display
+			memUnit.empty();
+			// Give it different style if the unit's data is interesting
+			if (this.set)
+				memUnit.addClass("memory_unit_set");
+			// Add in data
+			memUnit.append('<span class="address">'+this.addressHex(4)+'</span>');
+			memUnit.append('<span class="value">'+this.getValue()+'</span>');
+		};
+		
+		this.memoryUnit.onValueChanged();
 	}
 }
 
@@ -287,8 +290,10 @@ var MemoryDisplay = {
 			// Get the unit object
 			var unit = this.memoryObject.getUnit(u, true);
 			
+			var memUnit = $(document.createElement('div'));
+			$("#memory_units").append(memUnit);
 			// Create the unit display object
-			$("#memory_units").MemoryUnit({
+			memUnit.MemoryUnit({
 				memoryUnit: unit
 			});
 		}

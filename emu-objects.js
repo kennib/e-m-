@@ -102,6 +102,9 @@ function MemoryUnit(address) {
 	// useful for highlighting
 	this.set = false;
 	
+	// Callback for when values are updated
+	this.onValueChanged = null;
+	
 	// MemoryUnit methods
 	
 	// Getter for value of the MemoryUnit
@@ -113,6 +116,9 @@ function MemoryUnit(address) {
 	this.setValue = function(value) {
 		this.value = value;
 		this.set = true;
+		
+		if (this.onValueChanged)
+			this.onValueChanged();
 	}
 
 	// Returns the unit's address in hex
