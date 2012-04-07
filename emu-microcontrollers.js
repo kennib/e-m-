@@ -26,14 +26,15 @@ function Motorola68HC11() {
     // Method to complete 1 step of a program
 	var stepProgram = function() {
         var opcode = this.memory.getUnit(this.programCounter.value).value;
-        this.programCounter.value++;
+		this.programCounter.incValue();
+       //this.programCounter.value++;
 
         var op = this.ops.getOp(opcode);
 
         if(op == undefined) {
         	opcode = opcode << 8;
         	opcode += this.memory.getUnit(this.programCounter.value).value;
-        	this.programCounter.value++;
+			this.programCounter.incValue();
         	op = this.ops.getOp(opcode);
         	if(op == /* still */ undefined) {
         		alert("Invalid opcode.");
@@ -43,7 +44,7 @@ function Motorola68HC11() {
         var bytes = [];
         for(var b=1; b<op.bytes; b++) {
             bytes.push(this.memory.getUnit(this.programCounter.value).value);
-            this.programCounter.value++;
+			this.programCounter.incValue();
         }
 
         op.execute(this, bytes);

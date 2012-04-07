@@ -24,6 +24,11 @@ function Register(bits) {
 		if(this.onValueChanged)
 			this.onValueChanged();
 	}
+
+	// Convenience method to increment a register's value
+	this.incValue = function() {
+		this.setValue(this.getValue()+1);
+	}
 	
 	// Method to get bits in Register's value
 	this.getBits = function() {

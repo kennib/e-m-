@@ -180,6 +180,11 @@ div#program_editor {
 	box-flex: 1;			
 }
 
+.register > .bit_box:nth-of-type(4n + 1) {
+	/* Styling */
+	border-left: 3px solid black;
+	padding-left: 0px;
+}
 
 
 /*******************************************
