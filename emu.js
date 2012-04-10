@@ -34,7 +34,7 @@ $(document).ready(function() {
 	var memory = mc.memory;
 	var registers = mc.registers;
 
-    // Check 50 random memory location chunks
+	// Check 50 random memory location chunks
 	var chunk_size = 600;
 	for (var z=0; z<50; z++) {
 		var x = Math.floor(Math.random()*memory.size);
@@ -59,6 +59,12 @@ $(document).ready(function() {
 		registers: registers
 	});
 	
+	// Create the controls for the microcontroller
+	$.widget("ui.controls", ControlDisplay);
+	$("#control_block").controls({
+		microcontroller: mc
+	});
+
 	// Create the tabbed program editor
 	$("#program_editor").tabs();
 	

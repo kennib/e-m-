@@ -1,5 +1,90 @@
 /*******************************************************
 *
+* Control display
+*
+********************************************************/
+
+var ControlDisplay = {
+	_init: function(options) {
+		// Display properties
+		this.id = "control_display";
+		
+		// Data properties
+		this.microcontroller = this.options.microcontroller;
+		
+		// Create a menu
+		this.menu = $(document.createElement('menu'));
+		this.menu.attr("id", this.id);
+		this.element.append(this.menu);
+		
+		// Add in controls
+		var controls = ["load", "step", "run", "stop", "reset"];
+		for (c in controls) {
+			this.menu.append('<li class="control" id="'+controls[c]+'">'+controls[c]+'</li>');
+		}
+		
+		var controls = this;
+		// Add control functionality
+		$("#load.control").click(function() {
+			controls.load();
+		});
+		$("#step.control").click(function() {
+			controls.step();
+		});
+		$("#run.control").click(function() {
+			controls.run();
+		});		
+		$("#stop.control").click(function() {
+			controls.stop();
+		});		
+		$("#reset.control").click(function() {
+			controls.reset();
+		});		
+	},
+	
+	load: function() {
+		var program = $("#program_opcodes textarea").val().split("\n");
+
+		if (!program)
+			return;
+
+		var m = this.microcontroller.memory;
+		
+		var opcode_num = 0;
+		for (line in program) {
+			var opcodes = program[line].split(" ");
+			for (o in opcodes) {
+				var opcode = parseInt(opcodes[o], 16);
+				if (opcode) {
+					m.setUnit(opcode_num, opcode);
+					opcode_num++;
+				}
+			}
+		}
+	},
+	
+	step: function() {
+		this.microcontroller.stepProgram();
+	},
+	
+	run: function() {
+		this.running = True;
+		while(this.running)
+			this.microcontroller.stepProgram();
+	},
+	
+	stop: function() {
+		this.running = False;
+	},
+		
+	reset: function() {
+		this.microcontroller.programCounter.setValue(0);
+	}
+}
+
+
+/*******************************************************
+*
 * Register Display Components
 *
 ********************************************************/
@@ -8,7 +93,7 @@
 * Registers Display - Register Display
 ********************************************************/
 
-var RegisterDisplay  = {
+var RegisterDisplay = {
 	_init: function(options) {
 		// Display properties
 		this.id = "register_"+this.options.registerName;
