@@ -143,7 +143,8 @@ var RegisterDisplay = {
 			box.attr("size", 1);
 			box.attr("maxlength", 1);
 			box.addClass("bit_box");
-
+			box.change(function(){ widget.editBits() });
+			
 			this.container.append(box);
 		}
 		
@@ -156,6 +157,17 @@ var RegisterDisplay = {
 		this.container.children(".bit_box").each(function(index) {
 			$(this).val(bits[index]);
 		});
+	},
+	
+	// Method to update register data when bits are editted
+	editBits: function() {
+		var bits = "";
+		this.container.children(".bit_box").each(function() {
+			bits += $(this).val();
+		});
+		
+		var byte = parseInt(bits, 2);
+		this.registerObject.setValue(byte);
 	}
 }
 
