@@ -128,10 +128,7 @@ var RegisterDisplay = {
 		
 		var widget = this;
 		this.registerObject.onValueChanged = function(){
-			var bits = this.getBits();
-			widget.container.children(".bit_box").each(function(index) {
-				$(this).html(bits[index]);
-			});
+			widget.displayBits();
 		};
 		
 		// Add in a name
@@ -142,7 +139,9 @@ var RegisterDisplay = {
 		
 		// Create boxes for register's bits
 		for (var b=0; b<this.registerObject.bits; b++) {
-			var box = $(document.createElement('div'));
+			var box = $(document.createElement('input'));
+			box.attr("size", 1);
+			box.attr("maxlength", 1);
 			box.addClass("bit_box");
 
 			this.container.append(box);
@@ -155,7 +154,7 @@ var RegisterDisplay = {
 	displayBits: function() {
 		var bits = this.registerObject.getBits();
 		this.container.children(".bit_box").each(function(index) {
-			$(this).html(bits[index]);
+			$(this).val(bits[index]);
 		});
 	}
 }

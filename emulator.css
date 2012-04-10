@@ -192,14 +192,16 @@ div#program_editor {
 
 .register > .bit_box {
 	/* Styling */
-	padding: 2px;
+	margin: 0px;
+	padding: 3px;
 	
 	text-align: center;
 	font-size: 1.1em;
 	font-family: monospace;
 
-	border-left: 1px solid black;
-
+	border: none;
+	border-right: 1px solid black;
+	
 	/* flexbox setup */
 	-webkit-box-flex: 1;
 	-moz-box-flex: 1;
@@ -211,6 +213,12 @@ div#program_editor {
 	border-left: 3px solid black;
 	padding-left: 0px;
 }
+
+.register > .bit_box:nth-of-type(0) {
+	padding: 3px;
+	border: none;	
+}
+
 
 
 /*******************************************
