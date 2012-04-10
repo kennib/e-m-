@@ -20,7 +20,25 @@ var ControlDisplay = {
 		// Add in controls
 		var controls = ["load", "step", "run", "stop", "reset"];
 		for (c in controls) {
-			this.menu.append('<li class="control" id="'+controls[c]+'">'+controls[c]+'</li>');
+			var symbol = controls[c];
+			switch(controls[c]) {
+				case "load":
+					symbol = "&#x27A6";
+					break;
+				case "step":
+					symbol = "&#x25B7";
+					break;
+				case "run":
+					symbol = "&#x25B6";
+					break;
+				case "stop":
+					symbol = "&#x25A0";
+					break;
+				case "reset":
+					symbol = "&#x25C9";
+					break;
+			}
+			this.menu.append('<li class="control" id="'+controls[c]+'" title="'+controls[c]+'">'+symbol+'</li>');
 		}
 		
 		var controls = this;
@@ -68,13 +86,13 @@ var ControlDisplay = {
 	},
 	
 	run: function() {
-		this.running = True;
+		this.running = true;
 		while(this.running)
 			this.microcontroller.stepProgram();
 	},
 	
 	stop: function() {
-		this.running = False;
+		this.running = false;
 	},
 		
 	reset: function() {
