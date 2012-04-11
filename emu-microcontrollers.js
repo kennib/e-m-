@@ -68,12 +68,12 @@ function Motorola68HC11() {
 	for (var r in registers.registers) {
 		var register = registers.registers[r];
 		if (register.index) {
-			var label = new Label(r, register.value);
-			mc.memory.addLabel(label);
+			register.label = new Label(r, register.value);
+			mc.memory.addLabel(register.label);
 			// Set the label to update when the register
 			// changes its value
 			register.change(function(register) {
-				label.setAddress(register.value);
+				register.label.setAddress(register.value);
 			});
 		}
 	}

@@ -172,7 +172,7 @@ function Memory(size) {
 	// Memory properties
 	this.size = size;
 	this.memoryArray = Array(size);
-	this.labelArray = Array(size);
+	this.labelArray = [];
 	
 	// Memory methods
 	
