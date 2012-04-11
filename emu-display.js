@@ -127,9 +127,9 @@ var RegisterDisplay = {
 		
 		
 		var widget = this;
-		this.registerObject.onValueChanged = function(){
+		this.registerObject.change(function(){
 			widget.displayBits();
-		};
+		});
 		
 		// Add in a name
 		var name = $(document.createElement('span'));
@@ -440,14 +440,14 @@ var MemoryDisplay = {
 		var range = this.container.MemoryScrollbar("getRange");
 		var start = range[0]; var end = range[1];
 		
-		for (var addr=start; addr<end; addr++) {
-			var labels = this.labels[addr];
-			for (var l in labels) {
-				var labelObj = labels[l];
+		for (var l in this.labels) {
+			var label = this.labels[l];
+			if (label.address<end && label.address >= start) {
 				var labelDisp = $(document.createElement('span'));
-				$("#memory_unit"+addr).append(labelDisp);
+				$("#memory_unit"+label.address).append(labelDisp);
+				
 				labelDisp.MemoryLabel({
-					label: labelObj
+					label: label
 				});
 			}
 		}
@@ -485,7 +485,16 @@ var MemoryDisplay = {
 		this.displayUnits();
 
 		// Create the labels
-		this.displayLabels();		
+		this.displayLabels();
+		
+		// Make the labels update when their address is changed
+		var memDisp = this;
+		for (var l in this.labels) {
+			var label = this.labels[l];
+			label.change(function(label) {
+				memDisp.displayLabels();
+			});
+		}
 
 		// Make units refresh on scroll
 		this.container.MemoryScrollbar("container").bind("slidechange", {memoryDisplay: this},

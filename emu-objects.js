@@ -9,12 +9,24 @@ function Register(bits, index) {
 	// Register Properties
 	this.bits = bits;
 	this.value = 0;
-	this.onValueChanged = null
+	this.changeCallbacks = [];
 	// Is this register refer to a location memory?
 	if (index)
 		this.index = true;
 	
 	// Register Methods
+	
+	// Method to add functions to value changed callback
+	// or execute all of the callbacks
+	this.change = function (f) {
+		if (f) {
+			this.changeCallbacks.push(f);
+		} else {
+			for(var f in this.changeCallbacks)
+				this.changeCallbacks[f](this);
+		}
+			
+	};
 	
 	// Getter for the register's value
 	this.getValue = function() {
@@ -24,8 +36,7 @@ function Register(bits, index) {
 	// Setter for the register's value
 	this.setValue = function(value) {
 		this.value = value;
-		if(this.onValueChanged)
-			this.onValueChanged();
+		this.change();
 	}
 
 	// Convenience method to increment a register's value
@@ -76,9 +87,22 @@ function Label(name, address) {
 	// Label properties
 	this.name = name;
 	this.address = address;
+	this.changeCallbacks = [];
 	
 	// Label methods
 	
+	// Method to add functions to value changed callback
+	// or execute all of the callbacks
+	this.change = function (f) {
+		if (f) {
+			this.changeCallbacks.push(f);
+		} else {
+			for(var f in this.changeCallbacks)
+				this.changeCallbacks[f](this);
+		}
+			
+	};
+
 	// Getter for the Label's address
 	this.getAddress = function() {
 		return this.address;
@@ -87,6 +111,7 @@ function Label(name, address) {
 	// Setter for the Label's address
 	this.setAddress = function(address) {
 		this.address = address;
+		this.change();
 	}
 }
 
@@ -228,12 +253,7 @@ function Memory(size) {
 	
 	// Adds the label to the memory object's array of labels
 	this.addLabel = function(label) {
-		var l = this.labelArray[label.address];
-		if (l) {
-			l.push(label);
-		} else {
-			this.labelArray[label.address] = [label];
-		}
+		this.labelArray.push(label);
 	}
 }
 

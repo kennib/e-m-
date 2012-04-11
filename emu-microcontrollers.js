@@ -25,15 +25,18 @@ function Motorola68HC11() {
 
     // Method to complete 1 step of a program
 	var stepProgram = function() {
+		var bytes_read = 0;
         var opcode = this.memory.getUnit(this.programCounter.value).value;
+		bytes_read++;
 		this.programCounter.incValue();
-       //this.programCounter.value++;
+		//this.programCounter.value++;
 
-        var op = this.ops.getOp(opcode);
-
+       	op = this.ops.getOp(opcode);
+		
         if(op == undefined) {
         	opcode = opcode << 8;
         	opcode += this.memory.getUnit(this.programCounter.value).value;
+			bytes_read++;
 			this.programCounter.incValue();
         	op = this.ops.getOp(opcode);
         	if(op == /* still */ undefined) {
@@ -41,12 +44,14 @@ function Motorola68HC11() {
         	}
         }
 
-        var bytes = [];
-        for(var b=1; b<op.bytes; b++) {
-            bytes.push(this.memory.getUnit(this.programCounter.value).value);
+		var bytes = [];
+		for(; bytes_read<op.bytes; bytes_read++) {
+			bytes.push(this.memory.getUnit(this.programCounter.value).value);
 			this.programCounter.incValue();
-        }
+		}
 
+		console.log(this.programCounter.value)
+		
         op.execute(this, bytes);
     }
 
@@ -65,6 +70,11 @@ function Motorola68HC11() {
 		if (register.index) {
 			var label = new Label(r, register.value);
 			mc.memory.addLabel(label);
+			// Set the label to update when the register
+			// changes its value
+			register.change(function(register) {
+				label.setAddress(register.value);
+			});
 		}
 	}
 
@@ -112,8 +122,8 @@ function Motorola68HC11() {
 			var operation = new Operation({
 					macro: properties.macro,
 					opcode: properties.modes[mode][0],
-					clocks: properties.modes[mode][1],
-					bytes: properties.modes[mode][2],
+					clocks: properties.modes[mode][2],
+					bytes: properties.modes[mode][1],
 				}, addressing
 			);
 			
