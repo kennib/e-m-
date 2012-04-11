@@ -212,6 +212,25 @@ var RegistersDisplay  = {
 ********************************************************/
 
 /*******************************************************
+* Labels Display - Memory Units
+********************************************************/
+
+var LabelDisplay = {
+	_init: function (options) {
+		// Data properties
+		this.labelObject = this.options.label;
+		// Display properties
+		this.id = "label_" + this.labelObject.name;
+
+		// Create the label
+		this.element.attr("id", this.id);
+		this.element.addClass("label");
+		this.element.html(this.labelObject.name);
+	},
+};
+
+
+/*******************************************************
 * Memory Display - Scrollbar
 ********************************************************/
 
@@ -358,19 +377,18 @@ var MemoryUnitDisplay = {
 		var memUnit = $(document.createElement('div'));
 		memUnit.attr("id", this.id);
 		memUnit.addClass("memory_unit");
+		memUnit.append('<span class="address">'+this.memoryUnit.addressHex(4)+'</span>');
+		memUnit.append('<span class="value">'+this.memoryUnit.getValue()+'</span>');
 		this.element.append(memUnit);
 		
 		
 		// Add address and value information when value changes
 		this.memoryUnit.onValueChanged = function () {
-			// Empty the display
-			memUnit.empty();
 			// Give it different style if the unit's data is interesting
 			if (this.set)
 				memUnit.addClass("memory_unit_set");
-			// Add in data
-			memUnit.append('<span class="address">'+this.addressHex(4)+'</span>');
-			memUnit.append('<span class="value">'+this.getValue()+'</span>');
+			// Change data
+			memUnit.children(".value").html(this.getValue());
 		};
 		
 		this.memoryUnit.onValueChanged();
@@ -389,7 +407,7 @@ var MemoryDisplay = {
 	refreshUnits: function() {
 		if (this.memory_units) {
 			this.memory_units.empty();
-			this.displayUnits();	
+			this.displayUnits();
 		}
 	},
 
@@ -413,6 +431,28 @@ var MemoryDisplay = {
 		}
 	},
 	
+	// Method to display the labels
+	displayLabels: function() {
+		// Remove old labels
+		$(".label").remove();
+		
+		// Create new labels
+		var range = this.container.MemoryScrollbar("getRange");
+		var start = range[0]; var end = range[1];
+		
+		for (var addr=start; addr<end; addr++) {
+			var labels = this.labels[addr];
+			for (var l in labels) {
+				var labelObj = labels[l];
+				var labelDisp = $(document.createElement('span'));
+				$("#memory_unit"+addr).append(labelDisp);
+				labelDisp.MemoryLabel({
+					label: labelObj
+				});
+			}
+		}
+	},
+	
 	// Method to create the display object
 	// takes a parent jquery element as input
 	_init: function() {
@@ -421,11 +461,12 @@ var MemoryDisplay = {
 	
 		// Data
 		this.memoryObject = this.options.memory;
-	
+		this.labels = this.memoryObject.labelArray;
+		
 		// Subcomponents
 		$.widget("ui.MemoryScrollbar", MemoryScrollbar);
 		this.memoryUnits = null;
-
+		$.widget("ui.MemoryLabel", LabelDisplay);
 
 		// Create a container for the memory display
 		this.container = $(document.createElement('div'));
@@ -436,12 +477,15 @@ var MemoryDisplay = {
 		$(this.container).MemoryScrollbar({
 			memory: this.memoryObject
 		});
-	
+
 		// Create div for memory units
 		this.memory_units = $(document.createElement('div')).attr("id", "memory_units");
 		this.container.append(this.memory_units);
 		// Load up memory units
 		this.displayUnits();
+
+		// Create the labels
+		this.displayLabels();		
 
 		// Make units refresh on scroll
 		this.container.MemoryScrollbar("container").bind("slidechange", {memoryDisplay: this},
@@ -449,9 +493,13 @@ var MemoryDisplay = {
 				var valid = event.data.memoryDisplay.container.MemoryScrollbar("maxRange", ui);
 				// Only display units if the slider is in a valid state
 				// (i.e., not greater than max range)
-				if (valid)
+				if (valid) {
 					event.data.memoryDisplay.refreshUnits();
+					event.data.memoryDisplay.displayLabels();
+				}
 			}
 		);
+		
+		
 	}
 }

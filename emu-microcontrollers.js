@@ -16,10 +16,10 @@ function Motorola68HC11() {
     var registers = new Registers({
         A: new Register(8),
         B: new Register(8),
-        X: new Register(16),
-        Y: new Register(16),
-        SP: new Register(16),
-        PC: new Register(16),
+        X: new Register(16, true),
+        Y: new Register(16, true),
+        SP: new Register(16, true),
+        PC: new Register(16, true),
         CC: new Register(8)
     });
 
@@ -58,6 +58,15 @@ function Motorola68HC11() {
 		operations: new OperationSet(),
 		stepProgram: stepProgram
 	});
+
+	// Add labels for registers
+	for (var r in registers.registers) {
+		var register = registers.registers[r];
+		if (register.index) {
+			var label = new Label(r, register.value);
+			mc.memory.addLabel(label);
+		}
+	}
 
 	// Takes the properties all versions for the same macro
 	//	with the same basic operation
@@ -115,7 +124,6 @@ function Motorola68HC11() {
 	// Add operations
 	mc.addMultiAddressOp({
 			macro: "LDAA",
-			versions: 5,
 			modes: {IMM:  [0x86, 2, 2],
 			        DIR:  [0x96, 3, 2],
 			        EXT:  [0xB6, 3, 4],

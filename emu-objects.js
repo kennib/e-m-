@@ -5,12 +5,15 @@
 * Method to get a list of bits in its value
 ********************************************************/
 
-function Register(bits) {
+function Register(bits, index) {
 	// Register Properties
 	this.bits = bits;
 	this.value = 0;
 	this.onValueChanged = null
-		
+	// Is this register refer to a location memory?
+	if (index)
+		this.index = true;
+	
 	// Register Methods
 	
 	// Getter for the register's value
@@ -144,8 +147,7 @@ function Memory(size) {
 	// Memory properties
 	this.size = size;
 	this.memoryArray = Array(size);
-	this.labelArray = {};
-
+	this.labelArray = Array(size);
 	
 	// Memory methods
 	
@@ -222,6 +224,16 @@ function Memory(size) {
 		}
 		
 		return ranges;
+	}
+	
+	// Adds the label to the memory object's array of labels
+	this.addLabel = function(label) {
+		var l = this.labelArray[label.address];
+		if (l) {
+			l.push(label);
+		} else {
+			this.labelArray[label.address] = [label];
+		}
 	}
 }
 
