@@ -379,6 +379,7 @@ var MemoryUnitDisplay = {
 		memUnit.addClass("memory_unit");
 		memUnit.append('<span class="address">'+this.memoryUnit.addressHex(4)+'</span>');
 		memUnit.append('<span class="value">'+this.memoryUnit.getValue()+'</span>');
+		memUnit.append('<span class="hex_value">&#36;'+this.memoryUnit.valueHex(2)+'</span>');
 		this.element.append(memUnit);
 		
 		
@@ -389,6 +390,7 @@ var MemoryUnitDisplay = {
 				memUnit.addClass("memory_unit_set");
 			// Change data
 			memUnit.children(".value").html(this.getValue());
+			memUnit.children(".hex_value").html('&#36;'+this.valueHex(2));
 		};
 		
 		this.memoryUnit.onValueChanged();

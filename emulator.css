@@ -323,6 +323,12 @@ div#program_editor {
 	padding-left: 10px;
 }
 
+.memory_unit > .hex_value {
+	width: 4em;
+	padding-left: 10px;
+	background: rgb(200, 200, 200);
+}
+
 /*******************************************
 * Memory Display Scrollbar Highlighting
 *******************************************/

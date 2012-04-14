@@ -159,6 +159,16 @@ function MemoryUnit(address) {
 		
 		return (pad+hex).slice(-padding);
 	}
+	
+	this.valueHex = function(padding) {
+		if (!padding) padding = 0;
+		for (var pad=""; pad.length < padding; pad+="0");
+		
+		var value = this.getValue();
+		var hex = value.toString(16).toUpperCase();
+		
+		return (pad+hex).slice(-padding);
+	}
 }
 
 /*******************************************************
