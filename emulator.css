@@ -222,6 +222,21 @@ div#program_editor {
 
 
 /*******************************************
+* Labels
+*******************************************/
+
+.memory_unit > .label {
+	/* Styling */
+	min-width: 20px;
+	margin: 0px 3px;
+	
+	background: black;
+	
+	color: white;
+	text-align: center;
+}
+
+/*******************************************
 * Memory Display
 *******************************************/
 
@@ -307,7 +322,7 @@ div#program_editor {
 
 .memory_unit > .address {
 	/* Styling */
-	width: 4em;	
+	width: 4em;
 	
 	color: #EEE;
 
@@ -319,7 +334,7 @@ div#program_editor {
 }
 
 .memory_unit > .value {
-	width: 4em;
+	width: 3em;
 	padding-left: 10px;
 }
 
