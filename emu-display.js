@@ -61,23 +61,39 @@ var ControlDisplay = {
 	},
 	
 	load: function() {
-		var program = $("#program_opcodes textarea").val().split("\n");
+		// Get the program
+		var program = $("#program_assembly>textarea").val().split("\n");
 
+		// No need to do anything if there is no program
 		if (!program)
 			return;
-
+		
+		// Get memory
 		var m = this.microcontroller.memory;
 		
+		// Loop through each line in the program
 		var opcode_num = 0;
-		for (line in program) {
-			var opcodes = program[line].split(" ");
-			for (o in opcodes) {
-				var opcode = parseInt(opcodes[o], 16);
-				if (opcode) {
-					m.setUnit(opcode_num, opcode);
-					opcode_num++;
-				}
-			}
+		for (var l in program) {
+			var line = program[l];
+			
+			
+			// Get the address length
+			var addr_bytes = parseInt(line[1]);
+			if (addr_bytes >= 7) return; // end of file
+			addr_bytes = 2*addr_bytes;
+			
+			// Get hex memory address
+			var addr = parseInt(line.slice(4, 4+2*addr_bytes), 16);
+			
+			// Get number of bytes (ignoring checksum byte)
+			var bytes = parseInt(line.slice(2,4))-addr_bytes-1;
+			
+			var base = 4+addr_bytes*2;
+			// Place bytes in memory
+			for (var o=0; o < bytes; o++) {
+				var byte = parseInt(line.slice(base+o*2, base+(o+1)*2), 16);
+				m.setUnit(addr+o, byte);
+			} 
 		}
 	},
 	
