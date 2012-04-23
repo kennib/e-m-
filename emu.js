@@ -73,11 +73,11 @@ $(document).ready(function() {
 			
 			if (panel.attr("id") == "program_assembly") {
 				// Get the assembled source code
-				var source = $("program_source > textarea").html();
+				var source = $("#program_source>textarea").html();
 				var request = $.ajax({
 					url: "assemblers/index.cgi",
 					data: {source: source, instructions: "68HC11"},
-					dataType: "text/plain"
+					dataType: "html"
 				});
 				
 				// Place assembled code in text box
