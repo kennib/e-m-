@@ -34,7 +34,11 @@
 					<li><a href="#program_opcodes">OpCodes</a></li>
 				</ul>
 				<div id="program_source" class="tab">
-					<textarea class="syntax assembly"></textarea>
+					<textarea class="syntax assembly">
+	ORG		$8800
+run:
+	LDAA	#$CC
+					</textarea>
 				</div>
 				<div id="program_assembly" class="tab">
 					<textarea></textarea>
