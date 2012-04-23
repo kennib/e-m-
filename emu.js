@@ -68,5 +68,5 @@ $(document).ready(function() {
 	// Create the tabbed program editor
 	$("#program_editor").tabs();
 	
-	basicProgram()
+	//basicProgram()
 });
