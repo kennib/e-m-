@@ -65,7 +65,7 @@
 
 #program_editor {
 	/* Styling */
-	max-width: 470px;
+	max-width: 450px;
 	margin-top: 8px;
 
 	background: #29D649;
@@ -92,6 +92,7 @@ div#program_editor {
 #memory_block {
 	/* Styling */
 	width: 100%;
+	width:380px;
 	min-width:300px;
 	height: 100%;
 	

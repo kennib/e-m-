@@ -66,7 +66,28 @@ $(document).ready(function() {
 	});
 
 	// Create the tabbed program editor
-	$("#program_editor").tabs();
+	$("#program_editor").tabs({
+		// Assemble program when assembly tab is opened
+		show: function(event, ui) {
+			var panel = $(ui.panel);
+			
+			if (panel.attr("id") == "program_assembly") {
+				// Get the assembled source code
+				var source = $("program_source > textarea").html();
+				var request = $.ajax({
+					url: "assemblers/index.cgi",
+					data: {source: source, instructions: "68HC11"},
+					dataType: "text/plain"
+				});
+				
+				// Place assembled code in text box
+				request.done( function(assembly) {
+					panel.children("textarea").html(assembly);
+				});
+			}
+		}
+	});
 	
-	basicProgram()
+	
+	//basicProgram()
 });
