@@ -51,7 +51,7 @@ function Motorola68HC11() {
 		}
 
 		console.log(this.programCounter.value)
-		
+
         op.execute(this, bytes);
     }
 
@@ -84,13 +84,14 @@ function Motorola68HC11() {
 		for (var mode in properties.modes) {
 			if(mode == "IMM")
 				addressing = function(mc, bytes) {
-					var memory = [];
+					var m = [];
 					for(var byte in bytes)
 					{
-						memory.push(MemoryUnit(0));
-						memory[memory.length - 1].setValue(byte);
+						var mem = new MemoryUnit(null);
+						mem.setValue(bytes[byte]);
+						m.push(mem);
 					}
-					evaluation(mc, memory);
+					evaluation(mc, m);
 				};
 			else if(mode == "DIR")
 				addressing = function(mc, bytes) {
@@ -179,7 +180,7 @@ function Motorola68HC11() {
 			memory[0].setValue(mc.registers.getRegister("b").getValue());
 		}
 	);
-	/*mc.addMultiAddressOp({
+	mc.addMultiAddressOp({
 			macro: "LDD",
 			modes: {IMM:  [0xCC, 3, 3],
 			        DIR:  [0xDC, 2, 4],
@@ -190,7 +191,7 @@ function Motorola68HC11() {
 			mc.registers.getRegister("A").setValue(memory[0].value);
 			mc.registers.getRegister("B").setValue(memory[1].value);
 		}
-	);*/
+	);
 
 	// Return the MicroController object
 	return mc;
