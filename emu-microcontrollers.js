@@ -148,7 +148,49 @@ function Motorola68HC11() {
 			mc.registers.getRegister("A").setValue(memory[0].value);
 		}
 	);
-
+	mc.addMultiAddressOp({
+			macro: "LDAB",
+			modes: {IMM:  [0xC6, 2, 2],
+			        DIR:  [0xD6, 3, 2],
+			        EXT:  [0xF6, 3, 4],
+			        INDX: [0xE6, 2, 4],
+			        INDY: [0x18E6, 3, 5]}
+		}, function(mc, memory) {
+			mc.registers.getRegister("B").setValue(memory[0].value);
+		}
+	);
+	mc.addMultiAddressOp({
+			macro: "STAA",
+			modes: {DIR:  [0x97, 2, 3],
+			        EXT:  [0xB7, 3, 4],
+			        INDX: [0xA7, 2, 4],
+			        INDY: [0x18A7, 3, 5]}
+		}, function(mc, memory) {
+			memory[0].setValue(mc.registers.getRegister("A").getValue());
+		}
+	);
+	mc.addMultiAddressOp({
+			macro: "STAB",
+			modes: {DIR:  [0xD7, 2, 3],
+			        EXT:  [0xF7, 3, 4],
+			        INDX: [0xE7, 2, 4],
+			        INDY: [0x18E7, 3, 5]}
+		}, function(mc, memory) {
+			memory[0].setValue(mc.registers.getRegister("b").getValue());
+		}
+	);
+	/*mc.addMultiAddressOp({
+			macro: "LDD",
+			modes: {IMM:  [0xCC, 3, 3],
+			        DIR:  [0xDC, 2, 4],
+			        EXT:  [0xFC, 3, 5],
+			        INDX: [0xEC, 2, 5],
+			        INDY: [0x18EC, 3, 6]}
+		}, function(mc, memory) {
+			mc.registers.getRegister("A").setValue(memory[0].value);
+			mc.registers.getRegister("B").setValue(memory[1].value);
+		}
+	);*/
 
 	// Return the MicroController object
 	return mc;
