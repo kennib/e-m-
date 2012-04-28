@@ -84,39 +84,44 @@ function Motorola68HC11() {
 		for (var mode in properties.modes) {
 			if(mode == "IMM")
 				addressing = function(mc, bytes) {
-					evaluation(mc, bytes);
+					var memory = [];
+					for(var byte in bytes)
+					{
+						memory.push(MemoryUnit(0));
+						memory[memory.length - 1].setValue(byte);
+					}
+					evaluation(mc, memory);
 				};
 			else if(mode == "DIR")
 				addressing = function(mc, bytes) {
-					var data = [];
+					var memory = [];
 					
 					for(var byte in bytes)
-						data.push(mc.memory.getUnit(bytes[byte], true).value);
-					evaluation(mc, data);
-
+						memory.push(mc.memory.getUnit(bytes[byte], true));
+					evaluation(mc, memory);
 				};
 			else if(mode == "EXT")
 				addressing = function(mc, bytes) {
-					var data = [];
+					var memory = [];
 					for(var b = 0; b < bytes.length; b += 2)
 					{
 						// We assume big-endian storage, so left-shift the first byte read.
 						var byte = bytes[b] << 8 + bytes[b + 1];
-						data.push(mc.memory.getUnit(byte, true).value);
+						memory.push(mc.memory.getUnit(byte, true));
 					}
-					evaluation(mc, data);
+					evaluation(mc, memory);
 				};
 			else if(mode == "INDX")
 				addressing = function(mc, bytes) {
 					var address = bytes[0] + mc.registers.getRegister("X").value;
-					var data = [mc.memory.getUnit(address, true).value];
-					evaluation(mc, data);
+					var memory = [mc.memory.getUnit(address, true)];
+					evaluation(mc, memory);
 				};
 			else if(mode == "INDY")
 				addressing = function(mc, bytes) {
 					var address = bytes[0] + mc.registers.getRegister("Y").value;
-					var data = [mc.memory.getUnit(address, true).value];
-					evaluation(mc, data);
+					var memory = [mc.memory.getUnit(address, true)];
+					evaluation(mc, memory);
 				};
 
 			var operation = new Operation({
@@ -139,8 +144,8 @@ function Motorola68HC11() {
 			        EXT:  [0xB6, 3, 4],
 			        INDX: [0xA6, 2, 4],
 			        INDY: [0x18A6, 3, 5]}
-		}, function(mc, data) {
-			mc.registers.getRegister("A").setValue(data[0]);
+		}, function(mc, memory) {
+			mc.registers.getRegister("A").setValue(memory[0].value);
 		}
 	);
 
