@@ -80,7 +80,9 @@ function Motorola68HC11() {
 
 	// Takes the properties all versions for the same macro
 	//	with the same basic operation
-	mc.addMultiAddressOp = function(properties, evaluation) {
+	mc.addMultiAddressOp = function(properties, evaluation, addresses) {
+		if(!addresses)
+			var addresses = 1;
 		for (var mode in properties.modes) {
 			if(mode == "IMM")
 				addressing = function(mc, bytes) {
@@ -94,10 +96,10 @@ function Motorola68HC11() {
 				};
 			else if(mode == "DIR")
 				addressing = function(mc, bytes) {
-					var memory = [];
-					
-					for(var byte in bytes)
-						memory.push(mc.memory.getUnit(bytes[byte], true));
+					var memory = [];					
+					for(var b in bytes)
+						for(var i = 0; i < addresses; i++)
+							memory.push(mc.memory.getUnit(bytes[b] + i, true));
 					evaluation(mc, memory);
 				};
 			else if(mode == "EXT")
@@ -105,22 +107,29 @@ function Motorola68HC11() {
 					var memory = [];
 					for(var b = 0; b < bytes.length; b += 2)
 					{
-						// We assume big-endian storage, so left-shift the first byte read.
-						var byte = bytes[b] << 8 + bytes[b + 1];
-						memory.push(mc.memory.getUnit(byte, true));
+						for(var i = 0; i < addresses; i++)
+						{
+							// We assume big-endian storage, so left-shift the first byte read.
+							var address = bytes[b] << 8 + bytes[b + 1];
+							memory.push(mc.memory.getUnit(address + i, true));
+						}
 					}
 					evaluation(mc, memory);
 				};
 			else if(mode == "INDX")
 				addressing = function(mc, bytes) {
 					var address = bytes[0] + mc.registers.getRegister("X").value;
-					var memory = [mc.memory.getUnit(address, true)];
+					var memory = [];
+					for(var i = 0; i < addresses; i++)
+						memory.push(mc.memory.getUnit(address + i, true));
 					evaluation(mc, memory);
 				};
 			else if(mode == "INDY")
 				addressing = function(mc, bytes) {
 					var address = bytes[0] + mc.registers.getRegister("Y").value;
-					var memory = [mc.memory.getUnit(address, true)];
+					var memory = [];
+					for(var i = 0; i < addresses; i++)
+						memory.push(mc.memory.getUnit(address + i, true));
 					evaluation(mc, memory);
 				};
 
@@ -179,7 +188,7 @@ function Motorola68HC11() {
 			memory[0].setValue(mc.registers.getRegister("b").getValue());
 		}
 	);
-	/*mc.addMultiAddressOp({
+	mc.addMultiAddressOp({
 			macro: "LDD",
 			modes: {IMM:  [0xCC, 3, 3],
 			        DIR:  [0xDC, 2, 4],
@@ -189,8 +198,9 @@ function Motorola68HC11() {
 		}, function(mc, memory) {
 			mc.registers.getRegister("A").setValue(memory[0].value);
 			mc.registers.getRegister("B").setValue(memory[1].value);
-		}
-	);*/
+		},
+		2 // Ask for 2 consecutive bytes at each address given.
+	);
 
 	// Return the MicroController object
 	return mc;
