@@ -51,7 +51,7 @@ function Motorola68HC11() {
 		}
 
 		console.log(this.programCounter.value)
-		
+
         op.execute(this, bytes);
     }
 
@@ -89,8 +89,9 @@ function Motorola68HC11() {
 					var memory = [];
 					for(var b in bytes)
 					{
-						memory.push(new MemoryUnit(0));
-						memory[memory.length - 1].setValue(bytes[b]);
+						var mu = new MemoryUnit(null);
+						mu.setValue(bytes[b]);
+						memory.push(mu);
 					}
 					evaluation(mc, memory);
 				};
