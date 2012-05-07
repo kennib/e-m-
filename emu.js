@@ -24,6 +24,22 @@ function basicProgram() {
 	console.log("Register A:" + a);
 }
 
+function basicProgram2() {
+	// LDD 1,X
+	mc.memory.setUnit(0x00, 0xEC);
+	mc.memory.setUnit(0x01, 0x01);
+	// Set X to 0x0004, so we load D with 0x05 - 0x06
+	mc.registers.getRegister("X").setValue(0x0004);
+	// Which is 0x10AA
+	mc.memory.setUnit(0x05, 0xAA);
+	mc.memory.setUnit(0x06, 0x10);
+
+	// Run
+	mc.stepProgram();
+	
+	console.log("Running basic program 2");
+}
+
 $(document).ready(function() {
 	// Create memory object
 	//var mem_size = 64000;
