@@ -85,10 +85,10 @@ function Motorola68HC11() {
 			if(mode == "IMM")
 				addressing = function(mc, bytes) {
 					var memory = [];
-					for(var byte in bytes)
+					for(var b in bytes)
 					{
-						memory.push(MemoryUnit(0));
-						memory[memory.length - 1].setValue(byte);
+						memory.push(new MemoryUnit(0));
+						memory[memory.length - 1].setValue(bytes[b]);
 					}
 					evaluation(mc, memory);
 				};
