@@ -4,8 +4,8 @@
 
 #emulator {
 	/* Styling */
-	width: 800px;
-	height: 600px;
+	width: 950px;
+	height: 570px;
 	margin: auto auto;
 	padding-bottom: 8px;
 
@@ -34,7 +34,7 @@
 	box-flex: 1;	
 }
 
-#left_col {
+.col {
 	/* flexbox setup */
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
@@ -46,7 +46,7 @@
 	box-orient: vertical;
 }
 
-#left_col > div {
+.col > div {
 	/* Styling */
 	overflow: auto;
 	width: inherit;
@@ -92,11 +92,7 @@ div#program_editor {
 #memory_block {
 	/* Styling */
 	width: 100%;
-	width:380px;
-	min-width:300px;
-	height: 100%;
-	
-	background-color: #3D80D9;
+	height: 300px;
 }
 
 /*******************************************
@@ -118,7 +114,7 @@ div#program_editor {
 	display: inline-block;
 	width: 50px;
 	height: 20px;
-	margin: 5px;
+	margin: 3px;
 	padding: 5px;
 	
 	background: black;
