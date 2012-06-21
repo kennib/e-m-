@@ -12,6 +12,8 @@
 		<!-- JQuery scripts-->
 		<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="jquery-ui-1.8.18.custom.min.js"></script>
+		<!-- Ace editor scripts-->
+		<script type="text/javascript" src="ace/src/ace.js"></script>
 		<!-- e-mu scripts-->
 		<script type="text/javascript" src="emu-display.js"></script>
 		<script type="text/javascript" src="emu-objects.js"></script>
@@ -29,13 +31,7 @@
 					<li><a href="#program_assembly">Assembly</a></li>
 					<li><a href="#program_opcodes">OpCodes</a></li>
 				</ul>
-				<div id="program_source" class="tab">
-					<textarea class="syntax assembly">
-	ORG		$8800
-run:
-	LDAA	#$CC
-					</textarea>
-				</div>
+				<div id="program_source" class="tab"></div>
 				<div id="program_assembly" class="tab">
 					<textarea></textarea>
 				</div>
@@ -56,6 +52,10 @@ CC
 			</div>
 		</div>
 	</div>
+
+	<script type="text/javascript" src="ace/src/mode-c_cpp.js"></script>
+	<script type="text/javascript" src="ace/src/theme-twilight.js"></script>
+	<script>var editor = ace.edit("program_source");</script>
 	
 	</body>
 </html>
