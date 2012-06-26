@@ -57,7 +57,7 @@ var ControlDisplay = {
 		});		
 		$("#reset.control").click(function() {
 			controls.reset();
-		});		
+		});
 	},
 	
 	load: function() {
@@ -76,24 +76,23 @@ var ControlDisplay = {
 		for (var l in program) {
 			var line = program[l];
 			
-			
 			// Get the address length
 			var addr_bytes = parseInt(line[1]);
 			if (addr_bytes >= 7) return; // end of file
 			addr_bytes = 2*addr_bytes;
-			
+
 			// Get hex memory address
-			var addr = parseInt(line.slice(4, 4+2*addr_bytes), 16);
+			var addr = parseInt(line.slice(4, 4 + addr_bytes*2), 16);
 			
-			// Get number of bytes (ignoring checksum byte)
-			var bytes = parseInt(line.slice(2,4))-addr_bytes-1;
+			// Get number of bytes (ignoring checksum byte and address bytes)
+			var bytes = parseInt(line.slice(2,4), 16) - 1 - addr_bytes;
 			
-			var base = 4+addr_bytes*2;
+			var base = 4 + addr_bytes*2;
 			// Place bytes in memory
 			for (var o=0; o < bytes; o++) {
 				var byte = parseInt(line.slice(base+o*2, base+(o+1)*2), 16);
 				m.setUnit(addr+o, byte);
-			} 
+			}
 		}
 	},
 	
