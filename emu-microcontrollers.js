@@ -98,7 +98,12 @@ function Motorola68HC11() {
 		if(!addresses)
 			var addresses = 1;
 		for (var mode in properties.modes) {
-			if(mode == "IMM")
+			if(mode == "INH")
+				addressing = function(mc, bytes) {
+					var memory = [];	
+					evaluation(mc, memory);
+				};
+			else if(mode == "IMM")
 				addressing = function(mc, bytes) {
 					var memory = [];
 					for(var b in bytes)
@@ -125,7 +130,7 @@ function Motorola68HC11() {
 						for(var i = 0; i < addresses; i++)
 						{
 							// We assume big-endian storage, so left-shift the first byte read.
-							var address = bytes[b] << 8 + bytes[b + 1];
+							var address = (bytes[b] << 8) + bytes[b + 1];
 							memory.push(mc.memory.getUnit(address + i, true));
 						}
 					}
@@ -162,11 +167,20 @@ function Motorola68HC11() {
 
 	// Add operations
 	mc.addMultiAddressOp({
+			macro: "INCA",
+			modes: {INH:  [0x4C, 1, 2]},
+		}, function(mc, memory) {
+			var a = mc.registers.getRegister("A");
+			a.setValue(a.getValue()+1);
+		}
+	);
+	mc.addMultiAddressOp({
 			macro: "JMP",
 			modes: {EXT:  [0x7E, 3, 3],
 			        INDX: [0x6E, 2, 3],
 			        INDY: [0x18A6, 3, 4]}
 		}, function(mc, memory) {
+			console.log(memory);
 			mc.registers.getRegister("PC").setValue(memory[0].address);
 		}
 	);
