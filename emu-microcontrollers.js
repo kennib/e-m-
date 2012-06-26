@@ -180,7 +180,6 @@ function Motorola68HC11() {
 			        INDX: [0x6E, 2, 3],
 			        INDY: [0x18A6, 3, 4]}
 		}, function(mc, memory) {
-			console.log(memory);
 			mc.registers.getRegister("PC").setValue(memory[0].address);
 		}
 	);
