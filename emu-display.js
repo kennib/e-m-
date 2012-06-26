@@ -277,10 +277,21 @@ var MemoryScrollbar = {
 			max: this.memoryObject.size,
 			values: [this.memoryObject.size-100, this.memoryObject.size]
 		});
-
+		
+		// Highlight defined memory ranges
+		ranges = this.memoryObject.getMemoryMap();	
+		for (r in ranges) {
+			range = ranges[r];
+			// Add label with memory_map class and
+			// the name of the range as the title
+			this.addHighlight(range.start, range.end, "memory_map", range.name);
+		}
+		
+		// Highlight changed memory
 		ranges = this.memoryObject.getUnitRanges();	
 		for (r in ranges) {
 			range = ranges[r];
+			// Add label with data class
 			this.addHighlight(range[0], range[1], "data");
 		}
 	
@@ -293,7 +304,7 @@ var MemoryScrollbar = {
 	},
 
 	// Method adds highlighting to a range in the scrollbar
-	addHighlight: function(start, end, style) {
+	addHighlight: function(start, end, style, title) {
 		var hl = $(document.createElement('span'));
 		hl.addClass(style + " scrollbar_highlight");
 	
@@ -301,16 +312,20 @@ var MemoryScrollbar = {
 		var size = this.memoryObject.size;
 		var start_pc = 100*start/size;
 		var size_pc = 100*(end-start)/size;
-	
+				
 		// Get pixel value
 		var top = start_pc;
 		var height = size_pc;
-	
+		
 		hl.css({
 			'top': top+'%',
 			height: height+'%'
 		});
-	
+		
+		
+		// Add title
+		if (title) hl.attr("title", title);
+		
 		this.container.append(hl);
 	},
 

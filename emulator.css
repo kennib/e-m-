@@ -351,7 +351,14 @@ div#program_editor {
 
 #memory_scrollbar {
 	/* Styling */
-	background: #3D80D9;
+	z-index: 0;
+	background: #E4EEF0;
+}
+
+#memory_scrollbar .ui-slider-range,
+#memory_scrollbar .ui-slider-handle {
+	/* Styling */
+	z-index: 100;
 }
 
 .scrollbar_highlight {
@@ -363,5 +370,24 @@ div#program_editor {
 
 .data.scrollbar_highlight {
 	/* Styling */
+	z-index: 3;
+	width: 50%;
+	margin-left: 50%;
+	
 	background-color: #E01B3C;
 }
+
+.memory_map.scrollbar_highlight {
+	/* Styling */
+	z-index: 1;
+	min-height: 5px;
+}
+
+.memory_map.scrollbar_highlight:nth-of-type(8n+1) { background-color: #95E67E; }
+.memory_map.scrollbar_highlight:nth-of-type(8n+2) { background-color: #A4B5ED; }
+.memory_map.scrollbar_highlight:nth-of-type(8n+3) { background-color: #E2E67E; }
+.memory_map.scrollbar_highlight:nth-of-type(8n+4) { background-color: #69A859; }
+.memory_map.scrollbar_highlight:nth-of-type(8n+5) { background-color: #E6917E; }
+.memory_map.scrollbar_highlight:nth-of-type(8n+6) { background-color: #DEA12F; }
+.memory_map.scrollbar_highlight:nth-of-type(8n+7) { background-color: #C34EED; }
+.memory_map.scrollbar_highlight:nth-of-type(8n+0) { background-color: #62D9BD; }

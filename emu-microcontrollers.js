@@ -22,7 +22,20 @@ function Motorola68HC11() {
         PC: new Register(16, true),
         CC: new Register(8)
     });
+    
+    // Map of the ranges in memory
+    var memoryMap = [
+    	{start: 0x0000, end: 0x01FF, name: "On-Chip RAM"},
+    	{start: 0x0200, end: 0x0FFF, name: "External RAM"},
+    	{start: 0x1040, end: 0x3FFF, name: "External RAM"},
+    	{start: 0x4000, end: 0x7FFF, name: "External RAM"},
+    	{start: 0xB600, end: 0xB7FF, name: "On-Chip EEPROM"},
+    	{start: 0xD000, end: 0xFFFF, name: "Buffalo ROM"},
 
+    	{start: 0x1000, end: 0x103F, name: "Peripheral Registers"},
+    ];
+    
+	
     // Method to complete 1 step of a program
 	var stepProgram = function() {
 		var bytes_read = 0;
@@ -59,6 +72,7 @@ function Motorola68HC11() {
 	var mc = new MicroController({
 		registers: registers,
 		memorySize: 0xFFFF,
+		memoryMap: memoryMap,
 		programCounter: registers.getRegister("PC"),
 		operations: new OperationSet(),
 		stepProgram: stepProgram

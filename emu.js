@@ -44,7 +44,7 @@ $(document).ready(function() {
 	// Create memory object
 	//var mem_size = 64000;
 	//memory = new Memory(mem_size);
-
+	
 	// Create Microcontroller
 	mc = new Motorola68HC11();
 	var memory = mc.memory;
@@ -60,14 +60,14 @@ $(document).ready(function() {
 				unit.setValue(z);
 		}
 	}
-
+	
 	// Create display for memory object
 	$.widget("ui.MemoryDisplay", MemoryDisplay);
 	// Create the display on the page
 	$("#memory_block").MemoryDisplay({
 		memory: memory
 	});
-
+	
 	// Create display for the registers
 	$.widget("ui.registers", RegistersDisplay);
 	// Create the display on the page
@@ -80,7 +80,7 @@ $(document).ready(function() {
 	$("#control_block").controls({
 		microcontroller: mc
 	});
-
+	
 	// Create the tabbed program editor
 	$("#program_editor").tabs({
 		// Assemble program when assembly tab is opened

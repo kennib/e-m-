@@ -183,6 +183,7 @@ function Memory(size) {
 	this.size = size;
 	this.memoryArray = Array(size);
 	this.labelArray = [];
+	this.memoryMap = [];
 	
 	// Memory methods
 	
@@ -224,6 +225,20 @@ function Memory(size) {
 		unit.setValue(value);
 		
 		return value;
+	}
+	
+	// Setter for the memory map of the memory object
+	// The memory map is a list of objects with
+	// start, end and name properties
+	this.setMemoryMap = function(map) {
+		this.memoryMap = map;
+	}
+	
+	// Gettter for the memory map of the memory object
+	// The memory map is a list of objects with
+	// start, end and name properties
+	this.getMemoryMap = function(map) {
+		return this.memoryMap;
 	}
 	
 	
@@ -280,6 +295,7 @@ function MicroController(properties) {
 	// MicroController Components
 	this.registers = properties.registers;
 	this.memory = new Memory(properties.memorySize);
+	this.memory.setMemoryMap(properties.memoryMap);
 	this.ops = properties.operations;
 	
 	
