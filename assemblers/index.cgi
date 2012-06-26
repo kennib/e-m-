@@ -2,7 +2,7 @@
 
 import os, cgi, tempfile
 
-print "Content-Type: text/plain"
+print "Content-Type: spplication/json"
 print
 
 form = cgi.FieldStorage()
@@ -33,12 +33,25 @@ if assembler and source:
 	x.read()
 	
 	assembly_file = os.path.splitext(source_file.name)[0] + ".s19"
-	assembly = open(assembly_file)	
+	assembly = open(assembly_file)
+	
+	listing_file = os.path.splitext(source_file.name)[0] + ".lst"
+	listing = open(listing_file)
+	
+	
+results = {}
 
 if source and False:
 	print source
 	print
 
 if assembly:
-	print assembly.read()
+	results["assembly"] = assembly.read()
+	
+if listing:
+	results["listing"] = "".join(listing.readlines()[2:-1])
 
+# Dictionary should be converted to json then printed
+print "{",
+print ','.join(['"'+r+'": '+'"'+repr(results[r])[1:-1]+'"' for r in results]),
+print "}"

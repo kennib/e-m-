@@ -82,12 +82,15 @@ $(document).ready(function() {
 				var request = $.ajax({
 					url: "assemblers/index.cgi",
 					data: {source: source, instructions: "68HC11"},
-					dataType: "html"
+					dataType: "json"
 				});
 				
 				// Place assembled code in text box
-				request.done( function(assembly) {
+				request.done( function(results) {
+					assembly = results["assembly"];
 					editors["program_assembly"].getSession().setValue(assembly);
+					listing = results["listing"];
+					editors["program_listing"].getSession().setValue(listing);
 				});
 				
 			}

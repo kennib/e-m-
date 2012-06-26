@@ -30,16 +30,14 @@
 					<li><a href="#program_source">Source</a></li>
 					<li id="assemble" title="Assemble"><a href="#program_assembly">&#9654;</a></li>
 					<li><a href="#program_assembly">Assembly</a></li>
-					<li><a href="#program_opcodes">OpCodes</a></li>
+					<li><a href="#program_listing">Listing</a></li>
 				</ul>
 <div id="program_source" class="tab">	ORG		$0000
 run:
 	LDAA	#$CC
 </div>
-<div id="program_assembly" class="tab"></div>
-<div id="program_opcodes" class="tab">96 02
-CC
-</div>
+				<div id="program_assembly" class="tab"></div>
+				<div id="program_listing" class="tab"></div>
 			</div>
 		</div>
 		<div id="right_col" class="col">
@@ -58,7 +56,7 @@ CC
 		var CMode = require("ace/mode/c_cpp").Mode;
 		
 		var editors = {"program_source": 0,
-			"program_opcodes": 0,
+			"program_listing": 0,
 			"program_assembly": 0,
 		};
 		
