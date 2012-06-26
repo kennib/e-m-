@@ -162,6 +162,15 @@ function Motorola68HC11() {
 
 	// Add operations
 	mc.addMultiAddressOp({
+			macro: "JMP",
+			modes: {EXT:  [0x7E, 3, 3],
+			        INDX: [0x6E, 2, 3],
+			        INDY: [0x18A6, 3, 4]}
+		}, function(mc, memory) {
+			mc.registers.getRegister("PC").setValue(memory[0].address);
+		}
+	);
+	mc.addMultiAddressOp({
 			macro: "LDAA",
 			modes: {IMM:  [0x86, 2, 2],
 			        DIR:  [0x96, 3, 2],
