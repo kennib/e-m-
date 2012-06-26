@@ -146,6 +146,11 @@ div#program_editor {
 	padding: 0px;
 }
 
+#program_editor #assemble {
+	background: #29D649;
+	
+}
+
 
 /*******************************************
 * Register Display

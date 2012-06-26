@@ -85,9 +85,9 @@ $(document).ready(function() {
 	$("#program_editor").tabs({
 		// Assemble program when assembly tab is opened
 		select: function(event, ui) {
-			var panel = $(ui.panel);
+			var tab = $(ui.tab);
 			
-			if (panel.attr("id") == "program_assembly") {
+			if (tab.parent().attr("id") == "assemble") {
 				// Get the assembled source code
 				var source = editors["program_source"].getSession().getValue();
 				var request = $.ajax({
@@ -100,6 +100,21 @@ $(document).ready(function() {
 				request.done( function(assembly) {
 					editors["program_assembly"].getSession().setValue(assembly);
 				});
+				
+			}
+		},
+		show: function(event, ui) {
+			// Small Hack to fix jQuiry UI / Ace editor shenanigans
+			for (var e in editors) { editors[e].resize(); }
+
+			var panel = $(ui.panel);
+			
+			// The index of the assembly tab
+			var assembly_index = 2;
+			
+			if (panel.attr("id") == "program_assembly" && ui.index != assembly_index) {
+				// Select assembly tab
+				$(this).tabs("select", assembly_index);
 			}
 		}
 	});
