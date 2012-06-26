@@ -62,7 +62,7 @@ var ControlDisplay = {
 	
 	load: function() {
 		// Get the program
-		var program = $("#program_assembly>textarea").val().split("\n");
+		var program = editors["program_assembly"].getSession().getValue().split("\n");
 
 		// No need to do anything if there is no program
 		if (!program)

@@ -31,16 +31,14 @@
 					<li><a href="#program_assembly">Assembly</a></li>
 					<li><a href="#program_opcodes">OpCodes</a></li>
 				</ul>
-				<div id="program_source" class="tab"></div>
-				<div id="program_assembly" class="tab">
-					<textarea></textarea>
-				</div>
-				<div id="program_opcodes" class="tab">
-					<textarea>
-96 02
+<div id="program_source" class="tab">	ORG		$0000
+run:
+	LDAA	#$CC
+</div>
+<div id="program_assembly" class="tab"></div>
+<div id="program_opcodes" class="tab">96 02
 CC
-					</textarea>
-				</div>
+</div>
 			</div>
 		</div>
 		<div id="right_col" class="col">
@@ -55,7 +53,21 @@ CC
 
 	<script type="text/javascript" src="ace/src/mode-c_cpp.js"></script>
 	<script type="text/javascript" src="ace/src/theme-twilight.js"></script>
-	<script>var editor = ace.edit("program_source");</script>
+	<script>
+		var CMode = require("ace/mode/c_cpp").Mode;
+		
+		var editors = {"program_source": 0,
+			"program_opcodes": 0,
+			"program_assembly": 0,
+		};
+		
+		for (var e in editors) {
+			var editor = ace.edit(e);
+			editors[e] = editor;
+			editor.setTheme("ace/theme/twilight");
+			editor.getSession().setMode(new CMode());
+		}
+	</script>
 	
 	</body>
 </html>
