@@ -91,6 +91,7 @@ div#program_editor {
 
 #memory_block {
 	/* Styling */
+	overflow: hidden;
 	width: 100%;
 	height: 300px;
 }
@@ -275,6 +276,7 @@ div#program_editor {
 #memory_units {
 	/* Styling */
 	overflow: auto;
+	height: 100%;
 	
 	/* flexbox setup */
 	-webkit-box-flex: 10;
