@@ -252,6 +252,14 @@ var RegistersDisplay  = {
 *
 ********************************************************/
 
+String.prototype.hexString = function(length) {
+	var str = this.toString(16);
+    while (str.length < length)
+        str = '0' + str;
+    str = str.toUpperCase();
+    return str;
+}
+		
 /*******************************************************
 * Labels Display - Memory Units
 ********************************************************/
@@ -280,8 +288,8 @@ var MemoryScrollbar = {
 		// Display properties
 		this.id = "memory_scrollbar";
 		// The max/min number of memory units that can be in range
-		this.max_units = 1000;
-		this.min_units = 24;
+		this.max_units = 0x200;
+		this.min_units = 0x20;
 		
 		// Boolean to determine if changing slider values
 		this.sliding = false;
@@ -295,7 +303,11 @@ var MemoryScrollbar = {
 		this.element.append(this.container);
 
 		// Create the slider object
-		this.container.slider({
+		this.slider = $(document.createElement('div'));
+		this.slider.attr("id", "memory_slider");
+		this.container.append(this.slider);
+		
+		this.slider.slider({
 			orientation: 'vertical',
 			range: true,
 			min: 0,
@@ -326,6 +338,26 @@ var MemoryScrollbar = {
 				event.data.memoryScrollbar.maxRange(ui);
 			}
 		);
+
+		// Create inputs for scrollbar positions
+		this.slider.before('#<input id="memory_start" title="Range Start" maxlength="4"/>');
+		this.slider.after('#<input id="memory_size" title="Range Size" maxlength="4"/>');
+		this.text_start = $("#memory_start");
+		this.text_size = $("#memory_size");
+		// Make scrollbar update when inputs modified
+		var self = this;
+		var scroll_update = function() {
+			var start = parseInt(self.text_start.val(), 16);
+			var size = parseInt(self.text_size.val(), 16);
+			self.setRange(start, start+size);
+		};
+		this.text_start.change(scroll_update);
+		this.text_size.change(scroll_update);
+		
+		
+		// Set initial scrollbar range
+		this.setRange(0x0000, 0x0100);
+		
 	},
 
 	// Method adds highlighting to a range in the scrollbar
@@ -347,37 +379,54 @@ var MemoryScrollbar = {
 			height: height+'%'
 		});
 		
-		
 		// Add title
 		if (title) hl.attr("title", title);
 		
-		this.container.append(hl);
+		this.slider.append(hl);
 	},
 
 	// Method to get the range given by the scrollbar
 	getRange: function() {
 		// Get slider values
-		var range = this.container.slider("values");
-
+		var range = this.slider.slider("values");
+		
 		// Needs to be reversed since the slider has
 		// 0 at the bottom instead of the top
 		range = [this.memoryObject.size-range[1], this.memoryObject.size-range[0]];
-
-		// Make sure minimum is maintained	
-		if (range[1] - range[0] < this.min_units)
-			range[1] = range[0] + this.min_units;
-
+		
 		return range;
 	},
 
 	// Method to set the range selected by the scrollbar
 	setRange: function(start, end) {
+		// Ensure correct range
+		if (end >= this.memoryObject.size) end = this.memoryObject.size;
+		if (start < 0) start = 0;
+		
+		// Ensure number of units
+		if (end - start > this.max_units) end = start + this.max_units;
+		if (end - start < this.min_units) {
+			if (this.memoryObject.size-end > this.min_units) {
+				end += this.min_units;
+			} else {
+				end = this.memoryObject.size;
+				start = this.memoryObject.size - this.min_units;
+			}
+		}
+		
 		// Needs to be reversed since the slider has
 		// 0 at the bottom instead of the top
 		var range = [this.memoryObject.size-end, this.memoryObject.size-start];
-
-		// Get slider values
-		var range = this.container.slider("values", range);
+		
+		// Set slider values
+		this.slider.slider("values", range);
+		
+		// Update textboxes
+		range = this.getRange();
+		start = range[0].toString(16).hexString(4);
+		size = (range[1]-range[0]).toString(16).hexString(4);
+		this.text_start.val(start);
+		this.text_size.val(size);
 	},
 	
 	// Gives the slider a maximum range
@@ -460,6 +509,9 @@ var MemoryUnitDisplay = {
 ********************************************************/
 
 var MemoryDisplay = {
+	_init: function() {
+	},
+	
 	// Function to update the memory units displayed
 	// this will be used when the scrollbar is moved
 	refreshUnits: function() {
@@ -516,7 +568,7 @@ var MemoryDisplay = {
 	_init: function() {
 		// Display
 		this.id = "memory_display";
-	
+		
 		// Data
 		this.memoryObject = this.options.memory;
 		this.labels = this.memoryObject.labelArray;
@@ -525,23 +577,23 @@ var MemoryDisplay = {
 		$.widget("ui.MemoryScrollbar", MemoryScrollbar);
 		this.memoryUnits = null;
 		$.widget("ui.MemoryLabel", LabelDisplay);
-
+		
 		// Create a container for the memory display
 		this.container = $(document.createElement('div'));
 		this.container.attr("id", this.id);
 		this.element.append(this.container);
-
+		
 		// Create the scrollbar	
 		$(this.container).MemoryScrollbar({
 			memory: this.memoryObject
 		});
-
+		
 		// Create div for memory units
 		this.memory_units = $(document.createElement('div')).attr("id", "memory_units");
 		this.container.append(this.memory_units);
 		// Load up memory units
 		this.displayUnits();
-
+		
 		// Create the labels
 		this.displayLabels();
 		

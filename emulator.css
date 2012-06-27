@@ -293,11 +293,25 @@ div#program_editor {
 	overflow: visible;
 	width: 42px;
 	height: inherit;
+	padding-right: 6px;
+}
 
-	/* flexbox setup */
-	/*-webkit-box-flex: 1;
-	-moz-box-flex: 1;
-	box-flex: 1;*/
+#memory_scrollbar > * {
+	/* Styling */
+	width: 100%;
+}
+
+#memory_scrollbar > input {
+	/* Styling */
+	width: 65%;
+	margin: 6px 1px;
+	
+	font-size: 11px;
+}
+
+#memory_slider {
+	/* Styling */
+	height: 100%;
 }
 
 /*******************************************
@@ -385,11 +399,12 @@ div#program_editor {
 #memory_scrollbar {
 	/* Styling */
 	z-index: 0;
+	height: 80%;
 	background: #E4EEF0;
 }
 
-#memory_scrollbar .ui-slider-range,
-#memory_scrollbar .ui-slider-handle {
+#memory_slider .ui-slider-range,
+#memory_slider .ui-slider-handle {
 	/* Styling */
 	z-index: 100;
 }
