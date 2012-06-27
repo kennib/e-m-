@@ -134,6 +134,17 @@ div#program_editor {
 	text-align: center;
 }
 
+#control_block menu li#speed {
+	/* Styling */
+	width: 4em;
+}
+
+#control_block menu li#speed input {
+	/* Styling */
+	width: 3em;
+	margin: 0px;
+	padding: 0px;
+}
 
 /*******************************************
 * Program Editor

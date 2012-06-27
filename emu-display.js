@@ -21,7 +21,7 @@ var ControlDisplay = {
 		self.runSpeed = 200;
 		
 		// Add in controls
-		var controls = ["load", "step", "run", "stop", "reset"];
+		var controls = ["load", "step", "run", "stop", "reset", "speed"];
 		for (c in controls) {
 			var symbol = controls[c];
 			switch(controls[c]) {
@@ -40,9 +40,13 @@ var ControlDisplay = {
 				case "reset":
 					symbol = "&#x25C9";
 					break;
+				case "speed":
+					symbol = '&#9685; <input type="text" maxlength="4" value="'+self.runSpeed+'"/>';
+					break;
 			}
 			this.menu.append('<li class="control" id="'+controls[c]+'" title="'+controls[c]+'">'+symbol+'</li>');
 		}
+		
 		
 		var controls = this;
 		// Add control functionality
@@ -61,7 +65,7 @@ var ControlDisplay = {
 		$("#reset.control").click(function() {
 			controls.reset();
 		});
-		$("#runSpeed.control").change(function() {
+		$("#speed.control input").change(function() {
 			controls.setRunSpeed($(this).val());
 		});
 	},
