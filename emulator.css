@@ -431,6 +431,12 @@ div#program_editor {
 	min-height: 5px;
 }
 
+.memory_map.scrollbar_highlight:hover {
+	/* Styling */
+	z-index: 2;
+	border: solid 1px #DDD;
+}
+
 .memory_map.scrollbar_highlight:nth-of-type(8n+1) { background-color: #95E67E; }
 .memory_map.scrollbar_highlight:nth-of-type(8n+2) { background-color: #A4B5ED; }
 .memory_map.scrollbar_highlight:nth-of-type(8n+3) { background-color: #E2E67E; }
@@ -439,3 +445,5 @@ div#program_editor {
 .memory_map.scrollbar_highlight:nth-of-type(8n+6) { background-color: #DEA12F; }
 .memory_map.scrollbar_highlight:nth-of-type(8n+7) { background-color: #C34EED; }
 .memory_map.scrollbar_highlight:nth-of-type(8n+0) { background-color: #62D9BD; }
+
+
