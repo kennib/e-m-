@@ -170,7 +170,9 @@ div#program_editor {
 	padding: 0px;
 }
 
-#program_editor #assemble {
+#program_editor #assemble,
+#program_editor #assemble_load,
+#program_editor #load {
 	background: #29D649;
 }
 

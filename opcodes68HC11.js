@@ -969,7 +969,7 @@ opcodes68HC11 = {
 	"TEST": {
 		macro: "TEST",
 		modes: {
-			INH: [0x0, 1, *]
+			INH: [0x0, 1, 0]
 		}
 	},
 	"TPA": {
@@ -1025,7 +1025,7 @@ opcodes68HC11 = {
 	"WAI": {
 		macro: "WAI",
 		modes: {
-			INH: [0x3E, 1, **]
+			INH: [0x3E, 1, 0]
 		}
 	},
 	"XGDX": {
@@ -1040,4 +1040,4 @@ opcodes68HC11 = {
 			INH: [0x188F, 2, 4]
 		}
 	},
-}
+};

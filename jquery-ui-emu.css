@@ -17,6 +17,11 @@
 	background: rgba(255, 255, 255, 0.5);
 }
 
+.ui-tabs > .ui-tabs-nav > li > a {
+	/* Styling */
+	padding: 0.5em 0.5em;
+}
+
 .ui-tabs-nav.ui-widget-header {
 	/* Styling */
 	background: black;

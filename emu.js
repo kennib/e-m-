@@ -66,17 +66,18 @@ $(document).ready(function() {
 	
 	// Create the controls for the microcontroller
 	$.widget("ui.controls", ControlDisplay);
-	$("#control_block").controls({
+	var controller = $("#control_block").controls({
 		microcontroller: mc
 	});
 	
 	// Create the tabbed program editor
 	$("#program_editor").tabs({
-		// Assemble program when assembly tab is opened
 		select: function(event, ui) {
 			var tab = $(ui.tab);
 			
-			if (tab.parent().attr("id") == "assemble") {
+			var tab_id = tab.parent().attr("id");
+			
+			if (tab_id == "assemble" || tab_id == "assemble_load") {
 				// Get the assembled source code
 				var source = editors["program_source"].getSession().getValue();
 				var request = $.ajax({
@@ -91,22 +92,30 @@ $(document).ready(function() {
 					editors["program_assembly"].getSession().setValue(assembly);
 					listing = results["listing"];
 					editors["program_listing"].getSession().setValue(listing);
+	
+					if (tab_id == "assemble_load") {
+						$("#control_block").controls('load');
+					};
 				});
-				
 			}
+			
+			if (tab_id == "load") {
+				$("#control_block").controls('load');
+			};
 		},
 		show: function(event, ui) {
-			// Small Hack to fix jQuiry UI / Ace editor shenanigans
+			// Small Hack to fix jQuery UI / Ace editor shenanigans
 			for (var e in editors) { editors[e].resize(); }
 
 			var panel = $(ui.panel);
 			
-			// The index of the assembly tab
-			var assembly_index = 2;
+			// The index of the listing tab
+			var listing_index = 3;
 			
-			if (panel.attr("id") == "program_assembly" && ui.index != assembly_index) {
+			// Select the listing tab if on the listing panel
+			if (panel.attr("id") == "program_listing" && ui.index != listing_index) {
 				// Select assembly tab
-				$(this).tabs("select", assembly_index);
+				$(this).tabs("select", listing_index);
 			}
 		}
 	});
