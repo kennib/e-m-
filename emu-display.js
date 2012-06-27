@@ -78,6 +78,9 @@ var ControlDisplay = {
 		if (!program)
 			return;
 		
+		// Reset the board
+		this.microcontroller.reset();
+		
 		// Get memory
 		var m = this.microcontroller.memory;
 		
@@ -129,7 +132,7 @@ var ControlDisplay = {
 	},
 	
 	reset: function() {
-		this.microcontroller.programCounter.value = 0;
+		this.microcontroller.reset();
 	},
 	
 	setRunSpeed: function(s) {
@@ -550,7 +553,10 @@ var MemoryDisplay = {
 				memDisp.displayLabels();
 			});
 		}
+		
 
+		var self = this;
+		
 		// Make units refresh on scroll
 		this.container.MemoryScrollbar("container").bind("slidechange", {memoryDisplay: this},
 			function(event, ui) {
@@ -564,6 +570,10 @@ var MemoryDisplay = {
 			}
 		);
 		
-		
+		// Make units refresh when changed
+		this.memoryObject.onValueChanged = function() {
+			self.refreshUnits();
+			self.displayLabels();
+		};
 	}
 }

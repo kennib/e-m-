@@ -180,7 +180,19 @@ function Memory(size) {
 	this.labelArray = [];
 	this.memoryMap = [];
 	
+	// Callback for when values are updated
+	this.onValueChanged = null;
+
+
 	// Memory methods
+	
+	// Reset the memory array
+	this.reset = function() {
+		this.memoryArray = Array(size);
+
+		if (this.onValueChanged)
+			this.onValueChanged();
+	}
 	
 	// Getter for value of the MemoryUnit
 	// creates new, default memory if it does not exist yet
@@ -299,6 +311,15 @@ function MicroController(properties) {
 	
 	// Method to complete 1 step of a program
 	this.stepProgram = properties.stepProgram;
+	
+	// Method to reset board registers and memory
+	this.reset = function() {
+		// Reset registers to 0
+		for (r in this.registers.registers)
+			this.registers.registers[r].value = 0;
+		// Reset memory
+		this.memory.reset();
+	}
 }
 
 
