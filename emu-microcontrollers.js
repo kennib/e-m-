@@ -166,73 +166,39 @@ function Motorola68HC11() {
 	}
 
 	// Add operations
-	mc.addMultiAddressOp({
-			macro: "INCA",
-			modes: {INH:  [0x4C, 1, 2]},
-		}, function(mc, memory) {
+	mc.addMultiAddressOp(opcodes68HC11["INCA"],
+		function(mc, memory) {
 			var a = mc.registers.getRegister("A");
 			a.setValue(a.getValue()+1);
 		}
 	);
-	mc.addMultiAddressOp({
-			macro: "JMP",
-			modes: {EXT:  [0x7E, 3, 3],
-			        INDX: [0x6E, 2, 3],
-			        INDY: [0x18A6, 3, 4]}
-		}, function(mc, memory) {
+	mc.addMultiAddressOp(opcodes68HC11["JMP"],
+		function(mc, memory) {
 			mc.registers.getRegister("PC").setValue(memory[0].address);
 		}
 	);
-	mc.addMultiAddressOp({
-			macro: "LDAA",
-			modes: {IMM:  [0x86, 2, 2],
-			        DIR:  [0x96, 3, 2],
-			        EXT:  [0xB6, 3, 4],
-			        INDX: [0xA6, 2, 4],
-			        INDY: [0x18A6, 3, 5]}
-		}, function(mc, memory) {
+	mc.addMultiAddressOp(opcodes68HC11["LDAA"],
+		function(mc, memory) {
 			mc.registers.getRegister("A").setValue(memory[0].value);
 		}
 	);
-	mc.addMultiAddressOp({
-			macro: "LDAB",
-			modes: {IMM:  [0xC6, 2, 2],
-			        DIR:  [0xD6, 3, 2],
-			        EXT:  [0xF6, 3, 4],
-			        INDX: [0xE6, 2, 4],
-			        INDY: [0x18E6, 3, 5]}
-		}, function(mc, memory) {
+	mc.addMultiAddressOp(opcodes68HC11["LDAB"],
+		function(mc, memory) {
 			mc.registers.getRegister("B").setValue(memory[0].value);
 		}
 	);
-	mc.addMultiAddressOp({
-			macro: "STAA",
-			modes: {DIR:  [0x97, 2, 3],
-			        EXT:  [0xB7, 3, 4],
-			        INDX: [0xA7, 2, 4],
-			        INDY: [0x18A7, 3, 5]}
-		}, function(mc, memory) {
+	mc.addMultiAddressOp(opcodes68HC11["STAA"],
+		function(mc, memory) {
 			memory[0].setValue(mc.registers.getRegister("A").getValue());
 		}
 	);
-	mc.addMultiAddressOp({
-			macro: "STAB",
-			modes: {DIR:  [0xD7, 2, 3],
-			        EXT:  [0xF7, 3, 4],
-			        INDX: [0xE7, 2, 4],
-			        INDY: [0x18E7, 3, 5]}
-		}, function(mc, memory) {
+	mc.addMultiAddressOp(opcodes68HC11["STAB"],
+		function(mc, memory) {
 			memory[0].setValue(mc.registers.getRegister("b").getValue());
 		}
 	);
-	mc.addMultiAddressOp({
-			macro: "LDD",
-			modes: {IMM:  [0xCC, 3, 3],
-			        DIR:  [0xDC, 2, 4],
-			        EXT:  [0xFC, 3, 5],
-			        INDX: [0xEC, 2, 5],
-			        INDY: [0x18EC, 3, 6]}
-		}, function(mc, memory) {
+	mc.addMultiAddressOp(opcodes68HC11["LDD"],
+		function(mc, memory) {
 			mc.registers.getRegister("A").setValue(memory[0].value);
 			mc.registers.getRegister("B").setValue(memory[1].value);
 		},
