@@ -111,12 +111,13 @@ var ControlDisplay = {
 	},
 
 	run: function() {
-		if (!this.running) {
-			this.running = true;
+		if (!this.microcontroller.running) {
+			this.microcontroller.running = true;
 			var self = this;
 			self.runStep = function() {
 				self.microcontroller.stepProgram();
-				programTimeout = setTimeout(self.runStep, self.runSpeed);
+				if(self.microcontroller.running)
+					programTimeout = setTimeout(self.runStep, self.runSpeed);
 			}
 			this.runStep();
 		}
@@ -124,9 +125,9 @@ var ControlDisplay = {
 	
 	stop: function() {
 		clearTimeout(programTimeout);
-		this.running = false;
+		this.microcontroller.running = false;
 	},
-		
+	
 	reset: function() {
 		this.microcontroller.programCounter.setValue(0);
 	},
