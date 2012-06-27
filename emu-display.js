@@ -17,6 +17,9 @@ var ControlDisplay = {
 		this.menu.attr("id", this.id);
 		this.element.append(this.menu);
 		
+		// Set default properties
+		self.runSpeed = 200;
+		
 		// Add in controls
 		var controls = ["load", "step", "run", "stop", "reset"];
 		for (c in controls) {
@@ -57,6 +60,9 @@ var ControlDisplay = {
 		});		
 		$("#reset.control").click(function() {
 			controls.reset();
+		});
+		$("#runSpeed.control").change(function() {
+			controls.setRunSpeed($(this).val());
 		});
 	},
 	
@@ -99,19 +105,31 @@ var ControlDisplay = {
 	step: function() {
 		this.microcontroller.stepProgram();
 	},
-	
+
 	run: function() {
-		this.running = true;
-		while(this.running)
-			this.microcontroller.stepProgram();
+		if (!this.running) {
+			this.running = true;
+			var self = this;
+			self.runStep = function() {
+				self.microcontroller.stepProgram();
+				programTimeout = setTimeout(self.runStep, self.runSpeed);
+			}
+			this.runStep();
+		}
 	},
 	
 	stop: function() {
+		clearTimeout(programTimeout);
 		this.running = false;
 	},
 		
 	reset: function() {
 		this.microcontroller.programCounter.setValue(0);
+	},
+	
+	setRunSpeed: function(s) {
+		s = parseInt(s);
+		if (s) this.runSpeed = s;
 	}
 }
 
