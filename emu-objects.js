@@ -8,7 +8,7 @@
 function Register(bits, index) {
 	// Register Properties
 	this.bits = bits;
-	this.value = 0;
+	var value = 0;
 	this.changeCallbacks = [];
 	// Is this register refer to a location memory?
 	if (index)
@@ -29,20 +29,15 @@ function Register(bits, index) {
 	};
 	
 	// Getter for the register's value
-	this.getValue = function() {
-		return this.value;
-	}
+	this.__defineGetter__("value", function() {
+		return value;
+	});
 
 	// Setter for the register's value
-	this.setValue = function(value) {
-		this.value = value;
+	this.__defineSetter__("value", function(val) {
+		value = val;
 		this.change();
-	}
-
-	// Convenience method to increment a register's value
-	this.incValue = function() {
-		this.setValue(this.getValue()+1);
-	}
+	});
 	
 	// Method to get bits in Register's value
 	this.getBits = function() {
@@ -125,7 +120,7 @@ function Label(name, address) {
 function MemoryUnit(address) {
 	// MemoryUnit properties
 	this.address = address;
-	this.value = 0;	
+	var value = 0;
 	// Has the value of this element been set?
 	// useful for highlighting
 	this.set = false;
@@ -136,18 +131,18 @@ function MemoryUnit(address) {
 	// MemoryUnit methods
 	
 	// Getter for value of the MemoryUnit
-	this.getValue = function() {
-		return this.value;
-	}
+	this.__defineGetter__("value", function() {
+		return value;
+	});
 
 	// Setter for value of the MemoryUnit
-	this.setValue = function(value) {
-		this.value = value;
+	this.__defineSetter__("value", function(val) {
+		value = val;
 		this.set = true;
 		
 		if (this.onValueChanged)
 			this.onValueChanged();
-	}
+	});
 
 	// Returns the unit's address in hex
 	// pads with leading zeros if given parameter
@@ -164,7 +159,7 @@ function MemoryUnit(address) {
 		if (!padding) padding = 0;
 		for (var pad=""; pad.length < padding; pad+="0");
 		
-		var value = this.getValue();
+		var value = this.value;
 		var hex = value.toString(16).toUpperCase();
 		
 		return (pad+hex).slice(-padding);
@@ -222,7 +217,7 @@ function Memory(size) {
 		}
 		
 		// Set value
-		unit.setValue(value);
+		unit.value = value;
 		
 		return value;
 	}

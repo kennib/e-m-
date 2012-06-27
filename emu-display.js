@@ -129,7 +129,7 @@ var ControlDisplay = {
 	},
 	
 	reset: function() {
-		this.microcontroller.programCounter.setValue(0);
+		this.microcontroller.programCounter.value = 0;
 	},
 	
 	setRunSpeed: function(s) {
@@ -205,7 +205,7 @@ var RegisterDisplay = {
 		});
 		
 		var byte = parseInt(bits, 2);
-		this.registerObject.setValue(byte);
+		this.registerObject.value = byte;
 	}
 }
 
@@ -431,7 +431,7 @@ var MemoryUnitDisplay = {
 		memUnit.attr("id", this.id);
 		memUnit.addClass("memory_unit");
 		memUnit.append('<span class="address">'+this.memoryUnit.addressHex(4)+'</span>');
-		memUnit.append('<span class="value">'+this.memoryUnit.getValue()+'</span>');
+		memUnit.append('<span class="value">'+this.memoryUnit.value+'</span>');
 		memUnit.append('<span class="hex_value">&#36;'+this.memoryUnit.valueHex(2)+'</span>');
 		this.element.append(memUnit);
 		
@@ -442,7 +442,7 @@ var MemoryUnitDisplay = {
 			if (this.set)
 				memUnit.addClass("memory_unit_set");
 			// Change data
-			memUnit.children(".value").html(this.getValue());
+			memUnit.children(".value").html(this.value);
 			memUnit.children(".hex_value").html('&#36;'+this.valueHex(2));
 		};
 		

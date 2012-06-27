@@ -41,16 +41,16 @@ function Motorola68HC11() {
 		var bytes_read = 0;
         var opcode = this.memory.getUnit(this.programCounter.value).value;
 		bytes_read++;
-		this.programCounter.incValue();
-		//this.programCounter.value++;
-
+		this.programCounter.value++;
+		
        	op = this.ops.getOp(opcode);
 		
         if(op == undefined) {
         	opcode = opcode << 8;
         	opcode += this.memory.getUnit(this.programCounter.value).value;
 			bytes_read++;
-			this.programCounter.incValue();
+			this.programCounter.value++;
+
         	op = this.ops.getOp(opcode);
         	if(op == /* still */ undefined) {
         		alert("Invalid opcode.");
@@ -62,10 +62,8 @@ function Motorola68HC11() {
 		var bytes = [];
 		for(; bytes_read<op.bytes; bytes_read++) {
 			bytes.push(this.memory.getUnit(this.programCounter.value).value);
-			this.programCounter.incValue();
+			this.programCounter.value++;
 		}
-
-		console.log(this.programCounter.value)
 
         op.execute(this, bytes);
     }
@@ -111,7 +109,7 @@ function Motorola68HC11() {
 					for(var b in bytes)
 					{
 						var mu = new MemoryUnit(null);
-						mu.setValue(bytes[b]);
+						mu.value = bytes[b];
 						memory.push(mu);
 					}
 					evaluation(mc, memory);
@@ -170,39 +168,38 @@ function Motorola68HC11() {
 	// Add operations
 	mc.addMultiAddressOp(opcodes68HC11["INCA"],
 		function(mc, memory) {
-			var a = mc.registers.getRegister("A");
-			a.setValue(a.getValue()+1);
+			mc.registers.getRegister("A").value++;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["JMP"],
 		function(mc, memory) {
-			mc.registers.getRegister("PC").setValue(memory[0].address);
+			mc.registers.getRegister("PC").value = memory[0].address;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["LDAA"],
 		function(mc, memory) {
-			mc.registers.getRegister("A").setValue(memory[0].value);
+			mc.registers.getRegister("A").value = memory[0].value;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["LDAB"],
 		function(mc, memory) {
-			mc.registers.getRegister("B").setValue(memory[0].value);
+			mc.registers.getRegister("B").value = memory[0].value;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["STAA"],
 		function(mc, memory) {
-			memory[0].setValue(mc.registers.getRegister("A").getValue());
+			memory[0].value = mc.registers.getRegister("A").value;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["STAB"],
 		function(mc, memory) {
-			memory[0].setValue(mc.registers.getRegister("b").getValue());
+			memory[0].value = mc.registers.getRegister("b").value;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["LDD"],
 		function(mc, memory) {
-			mc.registers.getRegister("A").setValue(memory[0].value);
-			mc.registers.getRegister("B").setValue(memory[1].value);
+			mc.registers.getRegister("A").value = memory[0].value;
+			mc.registers.getRegister("B").value = memory[1].value;
 		},
 		2 // Ask for 2 consecutive bytes at each address given.
 	);
