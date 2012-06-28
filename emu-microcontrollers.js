@@ -298,7 +298,7 @@ function Motorola68HC11() {
 	);
 	mc.addMultiAddressOp(opcodes68HC11["STAB"],
 		function(mc, memory) {
-			memory[0].value = mc.registers.getRegister("b").value;
+			memory[0].value = mc.registers.getRegister("B").value;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["LDD"],
