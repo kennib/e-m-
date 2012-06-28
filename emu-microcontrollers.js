@@ -165,17 +165,21 @@ function Motorola68HC11() {
 		}
 	}
 
-	// Add operations
+	// Add and increment operations
 	mc.addMultiAddressOp(opcodes68HC11["INCA"],
 		function(mc, memory) {
 			mc.registers.getRegister("A").value++;
 		}
 	);
+	
+	// Flow control: branches and jumps
 	mc.addMultiAddressOp(opcodes68HC11["JMP"],
 		function(mc, memory) {
 			mc.registers.getRegister("PC").value = memory[0].address;
 		}
 	);
+	
+	// Loading and storing
 	mc.addMultiAddressOp(opcodes68HC11["LDAA"],
 		function(mc, memory) {
 			mc.registers.getRegister("A").value = memory[0].value;
