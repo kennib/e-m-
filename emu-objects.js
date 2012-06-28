@@ -138,6 +138,10 @@ function MemoryUnit(address) {
 	// Setter for value of the MemoryUnit
 	this.__defineSetter__("value", function(val) {
 		value = val;
+		while(value > 255)
+			value -= 256;
+		while(value < 0)
+			value += 256;
 		this.set = true;
 		
 		if (this.onValueChanged)
