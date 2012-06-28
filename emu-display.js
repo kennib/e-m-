@@ -21,7 +21,7 @@ var ControlDisplay = {
 		self.runSpeed = 200;
 		
 		// Add in controls
-		var controls = ["load", "step", "run", "stop", "reset", "speed"];
+		var controls = ["step", "run", "stop", "reset", "speed"];
 		for (c in controls) {
 			var symbol = controls[c];
 			switch(controls[c]) {

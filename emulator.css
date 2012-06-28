@@ -57,6 +57,13 @@
 	box-flex: 1;	
 }
 
+div#left_col {
+	/* flexbox setup */
+	-webkit-box-flex: 5;
+	-moz-box-flex: 5;
+	box-flex: 5;
+}
+
 #register_block {
 	/* Styling */
 	background-color: #D17C69;
