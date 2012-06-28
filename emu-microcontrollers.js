@@ -197,6 +197,38 @@ function Motorola68HC11() {
 		}
 	);
 	
+	// Decrement operations
+	mc.addMultiAddressOp(opcodes68HC11["DEC"],
+		function(me, memory) {
+			memory[0].value--;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["DECA"],
+		function(me, memory) {
+			mc.registers.getRegister("A").value--;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["DECB"],
+		function(me, memory) {
+			mc.registers.getRegister("B").value--;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["DEX"],
+		function(me, memory) {
+			mc.registers.getRegister("X").value--;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["DEY"],
+		function(me, memory) {
+			mc.registers.getRegister("Y").value--;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["DES"],
+		function(me, memory) {
+			mc.registers.getRegister("SP").value--;
+		}
+	);
+	
 	// Flow control: branches and jumps
 	mc.addMultiAddressOp(opcodes68HC11["JMP"],
 		function(mc, memory) {
