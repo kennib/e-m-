@@ -88,11 +88,18 @@ $(document).ready(function() {
 				
 				// Place assembled code in text box
 				request.done( function(results) {
+					error = results["error"]
+					if (error)
+						editors["program_listing"].getSession().setValue(error);
+					
 					assembly = results["assembly"];
-					editors["program_assembly"].getSession().setValue(assembly);
+					if (assembly)
+						editors["program_assembly"].getSession().setValue(assembly);
+					
 					listing = results["listing"];
-					editors["program_listing"].getSession().setValue(listing);
-	
+					if (listing)
+						editors["program_listing"].getSession().setValue(listing);
+					
 					if (tab_id == "assemble_load") {
 						$("#control_block").controls('load');
 					};
