@@ -100,7 +100,7 @@ function Motorola68HC11() {
 		for (var mode in properties.modes) {
 			if(mode == "INH")
 				addressing = function(mc, bytes) {
-					var memory = [];	
+					var memory = [];
 					evaluation(mc, memory);
 				};
 			else if(mode == "IMM")
@@ -196,6 +196,50 @@ function Motorola68HC11() {
 			mc.registers.getRegister("SP").value++;
 		}
 	);
+	
+	// Addition operations
+	mc.addMultiAddressOp(opcodes68HC11["ABA"],
+		function(mc, memory) {
+			mc.registers.getRegister("A").value += mc.registers.getRegister("B").value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["ABX"],
+		function(mc, memory) {
+			mc.registers.getRegister("X").value += mc.registers.getRegister("B").value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["ABY"],
+		function(mc, memory) {
+			mc.registers.getRegister("Y").value += mc.registers.getRegister("B").value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["ADCA"], // Unsure what "add with carry" means, this function may need fixing
+		function(mc, memory) {
+			mc.registers.getRegister("A").value += memory[0].value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["ADCB"],	// Unsure what "add with carry" means, this function may need fixing
+		function(mc, memory) {
+			mc.registers.getRegister("B").value += memory[0].value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["ADDA"],
+		function(mc, memory) {
+			mc.registers.getRegister("A").value += memory[0].value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["ADDB"],
+		function(mc, memory) {
+			mc.registers.getRegister("B").value += memory[0].value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["ADDD"],
+		function(mc, memory) {			
+			mc.registers.getRegister("A").value += memory[0].value;
+			mc.registers.getRegister("B").value += memory[1].value;
+		}, 2
+	);
+	
 	
 	// Decrement operations
 	mc.addMultiAddressOp(opcodes68HC11["DEC"],
