@@ -165,7 +165,12 @@ function Motorola68HC11() {
 		}
 	}
 
-	// Add and increment operations
+	// Increment operations
+	mc.addMultiAddressOp(opcodes68HC11["INC"],
+		function(mc, memory) {
+			memory[0].value++;
+		}
+	);
 	mc.addMultiAddressOp(opcodes68HC11["INCA"],
 		function(mc, memory) {
 			mc.registers.getRegister("A").value++;
@@ -184,6 +189,11 @@ function Motorola68HC11() {
 	mc.addMultiAddressOp(opcodes68HC11["INY"],
 		function(me, memory) {
 			mc.registers.getRegister("Y").value++;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["INS"],
+		function(me, memory) {
+			mc.registers.getRegister("SP").value++;
 		}
 	);
 	
