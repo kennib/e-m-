@@ -2,6 +2,11 @@
 
 import os, cgi, tempfile
 
+try:
+	import json
+except:
+	import simplejson as json
+
 print "Content-Type: spplication/json"
 print
 
@@ -73,8 +78,4 @@ if listing:
 if error:
 	results["error"] = error
 
-# Dictionary should be converted to json then printed
-# we should use an actual json library for this
-print "{",
-print ','.join(['"'+r+'": '+'"'+repr(results[r])[1:-1]+'"' for r in results]),
-print "}"
+print json.dumps(results)
