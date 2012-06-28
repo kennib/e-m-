@@ -24,15 +24,16 @@
 
 .ui-tabs-nav.ui-widget-header {
 	/* Styling */
-	background: black;
+	background: #222;
 }
 
 .ui-tabs-nav > li.ui-state-default {
 	/* Styling */
-	background: white;
+	background: #EEE;
 }
 
 .ui-tabs-nav > li.ui-state-active {
 	/* Styling */
-	background: #AAEEAA;
+	background: #CBE9C7;
+	border-color: #99DD99;
 }

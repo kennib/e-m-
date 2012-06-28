@@ -59,15 +59,12 @@
 
 #register_block {
 	/* Styling */
-	background-color: #E01B3C;
+	background-color: #D17C69;
 }
 
 #program_editor {
 	/* Styling */
-	margin-top: 8px;
-
-	background: #29D649;
-
+	background: #999;
 
 	/* flexbox setup */
 	display: -webkit-box;
@@ -154,7 +151,7 @@ div#program_editor {
 	/* Styling */
 	overflow: hidden;
 
-	padding:2px;
+	padding: 0px;
 }
 
 #program_editor > .ui-tabs-nav {
@@ -173,7 +170,9 @@ div#program_editor {
 #program_editor #assemble,
 #program_editor #assemble_load,
 #program_editor #load {
-	background: #29D649;
+	background: #62D666;
+	border-color: #4DA750;
+	border-width: 1px;
 }
 
 #program_editor #program_listing {
@@ -374,11 +373,11 @@ div#program_editor {
 	
 	color: #EEE;
 
-	background-color: #3D80D9;		
+	background-color: #6A7599;		
 }
 
 .memory_unit_set > .address {
-	background-color: #E01B3C;
+	background-color: #C44C3F;
 }
 
 .memory_unit > .value {
