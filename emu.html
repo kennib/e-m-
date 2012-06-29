@@ -35,9 +35,26 @@
 					<li id="load" title="Load"><a href="#program_listing">&#9654;</a></li>
 					<li id="assemble_load" title="Assemble and Load"><a href="#program_listing">&#9654;&#9654;</a></li>
 				</ul>
-<div id="program_source" class="tab">	ORG		$0000
-run:
-	LDAA	#$CC
+<div id="program_source" class="tab">****************************************
+*   -- Sample Program --
+*   This program writes a series of
+*   characters from a phrase to PORTB
+****************************************
+REGBASE EQU     $1000       /* Start address for registers */
+PORTB   EQU     $04
+
+        ORG     $0000
+
+init:
+        LDX     #phrase
+        LDY     #REGBASE
+loop:
+        LDAA    0,x         /* Get char from phrase */
+        STAA    PORTB,y     /* Write char to register1 */
+        INCX                /* Next char */
+        JMP     loop        /* loop forever */
+phrase:
+        FCB     "Hello, world!"
 </div>
 				<div id="program_assembly" class="tab"></div>
 				<div id="program_listing" class="tab"></div>
