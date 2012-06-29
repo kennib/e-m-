@@ -342,6 +342,16 @@ function Motorola68HC11() {
 		},
 		2 // Ask for 2 consecutive bytes at each address given.
 	);
+	mc.addMultiAddressOp(opcodes68HC11["LDX"],
+		function(mc, memory) {
+			mc.registers.getRegister("X").value = (memory[0].value<<8)+memory[1].value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["LDY"],
+		function(mc, memory) {
+			mc.registers.getRegister("Y").value = (memory[0].value<<8)+memory[1].value;
+		}
+	);
 
 	// Return the MicroController object
 	return mc;
