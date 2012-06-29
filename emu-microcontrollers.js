@@ -234,12 +234,18 @@ function Motorola68HC11() {
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["ADDD"],
-		function(mc, memory) {			
-			mc.registers.getRegister("A").value += memory[0].value;
-			mc.registers.getRegister("B").value += memory[1].value;
+		function(mc, memory) {
+			var a = mc.registers.getRegister("A");
+			var b = mc.registers.getRegister("B");
+			var d = (a.value << 8) + b.value;
+			var s = (memory[0].value << 8) + memory[1].value;
+			d += s;
+			while(d > 65535)
+				d -= 65536;
+			a.value = (d >> 8) & 0x00FF;
+			b.value = d & 0x00FF;
 		}, 2
 	);
-	
 	
 	// Decrement operations
 	mc.addMultiAddressOp(opcodes68HC11["DEC"],
@@ -273,6 +279,34 @@ function Motorola68HC11() {
 		}
 	);
 	
+	// Subtraction operators
+	mc.addMultiAddressOp(opcodes68HC11["SUBA"],
+		function(mc, memory) {
+			var a = mc.registers.getRegister("A");
+			a.value = a.value - memory[0].value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["SUBB"],
+		function(mc, memory) {
+			var b = mc.registers.getRegister("B");
+			b.value = b.value - memory[0].value;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["SUBD"],
+		function(mc, memory) {
+			var a = mc.registers.getRegister("A");
+			var b = mc.registers.getRegister("B");
+			var d = (a.value << 8) + b.value;
+			var s = (memory[0].value << 8) + memory[1].value;
+			d -= s;
+			while(d < 0)
+				d += 65536;
+			a.value = (d >> 8) & 0x00FF;
+			b.value = d & 0x00FF;
+		},
+		2
+	);
+	
 	// Flow control: branches and jumps
 	mc.addMultiAddressOp(opcodes68HC11["JMP"],
 		function(mc, memory) {
@@ -298,7 +332,7 @@ function Motorola68HC11() {
 	);
 	mc.addMultiAddressOp(opcodes68HC11["STAB"],
 		function(mc, memory) {
-			memory[0].value = mc.registers.getRegister("b").value;
+			memory[0].value = mc.registers.getRegister("B").value;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["LDD"],
