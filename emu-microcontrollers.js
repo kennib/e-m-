@@ -253,8 +253,11 @@ function Motorola68HC11() {
 	// Addition operations
 	mc.addMultiAddressOp(opcodes68HC11["ABA"],
 		function(mc, memory) {
-			mc.registers.getRegister("A").value += mc.registers.getRegister("B").value;
-			return mc.registers.getRegister("A").value;
+			var a = mc.registers.getRegister("A").value;
+			var b = mc.registers.getRegister("B").value;
+			var res = a+b;
+			mc.registers.getRegister("A").value = res;
+			return res;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["ABX"],
