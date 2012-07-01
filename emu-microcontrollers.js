@@ -342,7 +342,39 @@ function Motorola68HC11() {
 		},
 		2 // Ask for 2 consecutive bytes at each address given.
 	);
-
+	mc.addMultiAddressOp(opcodes68HC11["STD"],
+		function(mc, memory) {
+			memory[0].value = mc.registers.getRegister("A").value;
+			memory[1].value = mc.registers.getRegister("B").value;
+		},
+		2
+	);
+	mc.addMultiAddressOp(opcodes68HC11["STS"],
+		function(mc, memory) {
+			var s = mc.registers.getRegister("SP").value;
+			memory[0].value = (s >> 8) & 0x00FF;
+			memory[1].value = s & 0x00FF;
+		},
+		2
+	);
+	mc.addMultiAddressOp(opcodes68HC11["STX"],
+		function(mc, memory) {
+			var x = mc.registers.getRegister("X").value;
+			memory[0].value = (x >> 8) & 0x00FF;
+			memory[1].value = x & 0x00FF;
+		},
+		2
+	);
+	mc.addMultiAddressOp(opcodes68HC11["STY"],
+		function(mc, memory) {
+			var y = mc.registers.getRegister("Y").value;
+			memory[0].value = (y >> 8) & 0x00FF;
+			memory[1].value = y & 0x00FF;
+		},
+		2
+	);
+	
+	
 	// Return the MicroController object
 	return mc;
 }
