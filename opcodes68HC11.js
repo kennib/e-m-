@@ -562,6 +562,16 @@ opcodes68HC11 = {
 			EXT: [0xB6, 3, 4],
 			INDX: [0xA6, 2, 4],
 			INDY: [0x18A6, 3, 5]
+		},
+		conditions: {
+			"S": null,
+			"x": null,
+			"H": null,
+			"I": null,
+			"N": undefined,
+			"Z": undefined,
+			"V": 0,
+			"C": null,
 		}
 	},
 	"LDAB": {
