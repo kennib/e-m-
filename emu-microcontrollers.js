@@ -152,6 +152,16 @@ function Motorola68HC11() {
 						memory.push(mc.memory.getUnit(address + i, true));
 					evaluation(mc, memory);
 				};
+			else if(mode == "REL")
+				addressing = function(mc, bytes) {
+					// Convert from two's complement
+					var byte = ((bytes[0] & 0x80) ? -(((bytes[0] ^ 0xFF) & 0xFF) + 1) : bytes[0]);
+					var address = byte + mc.registers.getRegister("PC").value;
+					var memory = [];
+					for(var i = 0; i < addresses; i++)
+						memory.push(mc.memory.getUnit(address + i, true));
+					evaluation(mc, memory);
+				};
 
 			var operation = new Operation({
 					macro: properties.macro,
