@@ -36,6 +36,10 @@ function Register(bits, index) {
 	// Setter for the register's value
 	this.__defineSetter__("value", function(val) {
 		value = val;
+		while(value < 0)
+			value += 2 ^ this.bits;
+		while(value > 2 ^ this.bits - 1)
+			value -= 2 ^ this.bits;
 		this.change();
 	});
 	
