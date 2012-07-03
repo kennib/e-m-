@@ -212,7 +212,7 @@ function Motorola68HC11() {
 					var memory = [];
 					for(var i = 0; i < addresses; i++)
 						memory.push(mc.memory.getUnit(address + i, true));
-					evaluation(mc, memory);
+					return evaluation(mc, memory);
 				};
 
 			var operation = new Operation({
