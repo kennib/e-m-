@@ -323,6 +323,16 @@ function Motorola68HC11() {
 			mc.registers.getRegister("PC").value = memory[0].address;
 		}
 	);
+	mc.addMultiAddressOp(opcodes68HC11["BRA"],
+		function(mc, memory) {
+			mc.registers.getRegister("PC").value = memory[0].address;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["BRN"],
+		function(mc, memory) {
+			// Why?
+		}
+	);
 	
 	// Loading and storing
 	mc.addMultiAddressOp(opcodes68HC11["LDAA"],
