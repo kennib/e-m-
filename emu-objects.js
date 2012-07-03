@@ -37,9 +37,9 @@ function Register(bits, index) {
 	this.__defineSetter__("value", function(val) {
 		value = val;
 		while(value < 0)
-			value += 2 ^ this.bits;
-		while(value > 2 ^ this.bits - 1)
-			value -= 2 ^ this.bits;
+			value += Math.pow(2, this.bits);
+		while(value > Math.pow(2, this.bits) - 1)
+			value -= Math.pow(2, this.bits);
 		this.change();
 	});
 	
