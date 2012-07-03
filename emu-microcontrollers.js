@@ -392,7 +392,7 @@ function Motorola68HC11() {
 	);
 	mc.addMultiAddressOp(opcodes68HC11["BEQ"],
 		function(mc, memory) {
-			if(mc.registers.getRegister("CC") & (1 << 2))
+			if(mc.registers.getRegister("CC").value & (1 << 2))
 				mc.registers.getRegister("PC").value = memory[0].address;
 		}
 	);
