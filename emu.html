@@ -50,6 +50,7 @@ init:
         LDY     #REGBASE
 loop:
         LDAA    0,x         /* Get char from phrase */
+        BEQ     init        /* Reset if null char */
         STAA    PORTB,y     /* Write char to register1 */
         INCX                /* Next char */
         JMP     loop        /* loop forever */
