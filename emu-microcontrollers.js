@@ -137,9 +137,9 @@ function Motorola68HC11() {
 			}
 			if (bit != undefined) {
 				if (bit)
-					condition.value |= (bit<<c);
+					condition.value |= (1<<c);
 				else
-					condition.value &= ~(bit<<c)
+					condition.value &= ~(1<<c);
 			}
 		}
 	}
