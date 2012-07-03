@@ -132,8 +132,8 @@ function Motorola68HC11() {
 					case "X":
 						break;
 				}
-			} else if (opcode.conditionCodes[code] != null) {
-				bit = opcode.conditionCodes[code];
+			} else if (opcode.conditions[code] != null) {
+				bit = opcode.conditions[code];
 			}
 			if (bit != undefined) {
 				if (bit)
