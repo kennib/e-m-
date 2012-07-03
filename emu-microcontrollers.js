@@ -65,7 +65,8 @@ function Motorola68HC11() {
 			this.programCounter.value++;
 		}
 
-        op.execute(this, bytes);
+        var val = op.execute(this, bytes);
+		mc.conditionCodes(op, val);
     }
 
 	// Create microController object
@@ -91,7 +92,58 @@ function Motorola68HC11() {
 			});
 		}
 	}
-
+	
+	// Method to update the control register
+	mc.conditionCodes = function(opcode, value) {
+		var condition = mc.registers.getRegister("CC");
+		if (opcode.conditions == undefined || value == undefined)
+			return;
+		
+		var codes = ["C", "V", "Z", "N", "I", "H", "X", "S"];
+		var byte_size = 0x100; //mc.memory.size;
+		
+		var final = ((value%byte_size)+byte_size)%byte_size; // The actual value stored
+		
+		for (var c in codes) {
+			var code = codes[c];
+			var bit = null;
+			
+			
+			if (opcode.conditions[code] == null) {
+				switch(code) {
+					case "C":
+						bit = (value >= byte_size);
+						break;
+					case "V":
+						bit = (value >= (byte_size>>1) || value <= -(byte_size>>1));
+						break;
+					case "Z":
+						bit = (final == 0);
+						break;
+					case "N":
+						bit = (final&(byte_size>>1) > 0);
+						break;
+					case "I":
+						break;
+					case "H":
+						break;
+					case "S":
+						break;
+					case "X":
+						break;
+				}
+			} else if (opcode.conditionCodes[code] != null) {
+				bit = opcode.conditionCodes[code];
+			}
+			if (bit != undefined) {
+				if (bit)
+					condition.value |= (bit<<c);
+				else
+					condition.value &= ~(bit<<c)
+			}
+		}
+	}
+	
 	// Takes the properties all versions for the same macro
 	//	with the same basic operation
 	mc.addMultiAddressOp = function(properties, evaluation, addresses) {
@@ -101,7 +153,7 @@ function Motorola68HC11() {
 			if(mode == "INH")
 				addressing = function(mc, bytes) {
 					var memory = [];
-					evaluation(mc, memory);
+					return evaluation(mc, memory);
 				};
 			else if(mode == "IMM")
 				addressing = function(mc, bytes) {
@@ -112,7 +164,7 @@ function Motorola68HC11() {
 						mu.value = bytes[b];
 						memory.push(mu);
 					}
-					evaluation(mc, memory);
+					return evaluation(mc, memory);
 				};
 			else if(mode == "DIR")
 				addressing = function(mc, bytes) {
@@ -120,7 +172,7 @@ function Motorola68HC11() {
 					for(var b in bytes)
 						for(var i = 0; i < addresses; i++)
 							memory.push(mc.memory.getUnit(bytes[b] + i, true));
-					evaluation(mc, memory);
+					return evaluation(mc, memory);
 				};
 			else if(mode == "EXT")
 				addressing = function(mc, bytes) {
@@ -134,7 +186,7 @@ function Motorola68HC11() {
 							memory.push(mc.memory.getUnit(address + i, true));
 						}
 					}
-					evaluation(mc, memory);
+					return evaluation(mc, memory);
 				};
 			else if(mode == "INDX")
 				addressing = function(mc, bytes) {
@@ -142,7 +194,7 @@ function Motorola68HC11() {
 					var memory = [];
 					for(var i = 0; i < addresses; i++)
 						memory.push(mc.memory.getUnit(address + i, true));
-					evaluation(mc, memory);
+					return evaluation(mc, memory);
 				};
 			else if(mode == "INDY")
 				addressing = function(mc, bytes) {
@@ -150,7 +202,7 @@ function Motorola68HC11() {
 					var memory = [];
 					for(var i = 0; i < addresses; i++)
 						memory.push(mc.memory.getUnit(address + i, true));
-					evaluation(mc, memory);
+					return evaluation(mc, memory);
 				};
 			else if(mode == "REL")
 				addressing = function(mc, bytes) {
@@ -168,6 +220,7 @@ function Motorola68HC11() {
 					opcode: properties.modes[mode][0],
 					clocks: properties.modes[mode][2],
 					bytes: properties.modes[mode][1],
+					conditions: properties.conditions,
 				}, addressing
 			);
 			
@@ -210,7 +263,11 @@ function Motorola68HC11() {
 	// Addition operations
 	mc.addMultiAddressOp(opcodes68HC11["ABA"],
 		function(mc, memory) {
-			mc.registers.getRegister("A").value += mc.registers.getRegister("B").value;
+			var a = mc.registers.getRegister("A").value;
+			var b = mc.registers.getRegister("B").value;
+			var res = a+b;
+			mc.registers.getRegister("A").value = res;
+			return res;
 		}
 	);
 	mc.addMultiAddressOp(opcodes68HC11["ABX"],

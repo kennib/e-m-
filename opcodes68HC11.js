@@ -3,6 +3,16 @@ opcodes68HC11 = {
 		macro: "ABA",
 		modes: {
 			INH: [0x1B, 1, 2]
+		},
+		conditions: {
+			"S": undefined,
+			"x": undefined,
+			"H": null,
+			"I": undefined,
+			"N": null,
+			"Z": null,
+			"V": null,
+			"C": null,
 		}
 	},
 	"ABX": {

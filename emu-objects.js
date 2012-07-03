@@ -342,6 +342,7 @@ function Operation(properties, operation) {
 	this.opcode = properties.opcode;
 	this.clocks = properties.clocks;
 	this.bytes = properties.bytes;
+	this.conditions = properties.conditions;
 	
 	// Method to evaluate the operation
 	// Applied to a specific MicroController
