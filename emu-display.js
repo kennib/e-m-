@@ -252,14 +252,6 @@ var RegistersDisplay  = {
 *
 ********************************************************/
 
-String.prototype.hexString = function(length) {
-	var str = this.toString(16);
-    while (str.length < length)
-        str = '0' + str;
-    str = str.toUpperCase();
-    return str;
-}
-		
 /*******************************************************
 * Labels Display - Memory Units
 ********************************************************/
@@ -423,8 +415,8 @@ var MemoryScrollbar = {
 		
 		// Update textboxes
 		range = this.getRange();
-		start = range[0].toString(16).hexString(4);
-		size = (range[1]-range[0]).toString(16).hexString(4);
+		start = range[0].toHex(4);
+		size = (range[1]-range[0]).toHex(4);
 		this.text_start.val(start);
 		this.text_size.val(size);
 	},
