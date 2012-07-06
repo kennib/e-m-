@@ -179,13 +179,32 @@ var RegisterDisplay = {
 		this.container.append(name);
 		
 		// Create boxes for register's bits
+		var boxes = [];
 		for (var b=0; b<this.registerObject.bits; b++) {
 			var box = $(document.createElement('input'));
+			boxes[b] = box;
 			box.attr("size", 1);
 			box.attr("maxlength", 1);
 			box.addClass("bit_box");
 			box.change(function(){ widget.editBits() });
 			
+			// Select text in box on focus
+			box.click(function() { $(this).select(); });
+			
+			// Make cursor jump from box to box
+			if (b != this.registerObject.bits) {
+				boxes[b].keyup(function() {
+					if ($(this).val().length == 1) {
+						$(this).next().focus();
+						$(this).next().select();
+					}
+					else {
+						$(this).prev().focus();
+						$(this).prev().select();
+					}
+				});
+			}
+
 			this.container.append(box);
 		}
 		
