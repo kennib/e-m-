@@ -178,6 +178,14 @@ var RegisterDisplay = {
 		name.html(this.options.registerName);
 		this.container.append(name);
 		
+		// Make the register link to its memory address
+		var self = this;
+		name.click(function(){
+			// Round the position to the nearest 8 bytes
+			var pos = Math.floor(self.registerObject.value/8)*8;
+			$("#memory_display").MemoryScrollbar("setRange", pos);
+		});
+		
 		// Create boxes for register's bits
 		var boxes = [];
 		for (var b=0; b<this.registerObject.bits; b++) {
@@ -410,6 +418,8 @@ var MemoryScrollbar = {
 
 	// Method to set the range selected by the scrollbar
 	setRange: function(start, end) {
+		if (end == undefined) { end = start + this.min_units; }
+		
 		// Ensure correct range
 		if (end >= this.memoryObject.size) end = this.memoryObject.size;
 		if (start < 0) start = 0;

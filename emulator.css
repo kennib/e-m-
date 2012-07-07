@@ -230,6 +230,8 @@ div#program_editor {
 	width: 40px;
 	padding-left: 3px;
 	
+	cursor: pointer;
+	
 	color: #EEE;
 	
 	background-color: #111;
