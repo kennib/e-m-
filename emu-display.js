@@ -209,13 +209,22 @@ var RegisterDisplay = {
 			box.click(function() { $(this).select(); });
 			
 			// Make cursor jump from box to box
-			if (b != this.registerObject.bits) {
+			if (b != this.registerObject.bits-1) {
 				boxes[b].keyup(function() {
 					if ($(this).val().length == 1) {
 						$(this).next().focus();
 						$(this).next().select();
+					} else {
+						$(this).prev().focus();
+						$(this).prev().select();
 					}
-					else {
+				});
+			} else {
+				boxes[b].keyup(function() {
+					if ($(this).val().length == 1) {
+						$(this).siblings('.bit_box:first').focus();
+						$(this).siblings('.bit_box:first').select();
+					} else {
 						$(this).prev().focus();
 						$(this).prev().select();
 					}
