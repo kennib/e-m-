@@ -49,6 +49,14 @@ function Register(bits, index) {
 		
 		return bits;
 	}
+	
+	this.valueHex = function(padding) {
+		return this.value.toHex(padding);
+	}
+	
+	this.valueChar = function() {
+		return "'"+this.value.toChar()+"'";
+	}
 }
 
 /*******************************************************

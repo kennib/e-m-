@@ -186,6 +186,15 @@ var RegisterDisplay = {
 			$("#memory_display").MemoryScrollbar("setRange", pos);
 		});
 		
+		// Create Select element containing different display modes
+		var hex_digits = this.registerObject.bits/4;
+		this.menu = $(document.createElement('select'));
+		this.menu.addClass('value_display');
+		this.menu.append('<option class="value">'+this.registerObject.value+'</option>');
+		this.menu.append('<option class="ascii_value">'+this.registerObject.valueChar()+'</option>');
+		this.menu.append('<option class="hex_value" selected="selected">&#36;'+this.registerObject.valueHex(hex_digits)+'</option>');
+		this.container.append(this.menu);
+		
 		// Create boxes for register's bits
 		var boxes = [];
 		for (var b=0; b<this.registerObject.bits; b++) {
@@ -225,6 +234,12 @@ var RegisterDisplay = {
 		this.container.children(".bit_box").each(function(index) {
 			$(this).val(bits[index]);
 		});
+		
+		// Update menu
+		var hex_digits = this.registerObject.bits/4;
+		this.menu.children(".value").html(this.registerObject.value);
+		this.menu.children(".ascii_value").html(this.registerObject.valueChar());
+		this.menu.children(".hex_value").html('&#36;'+this.registerObject.valueHex(hex_digits));
 	},
 	
 	// Method to update register data when bits are editted
@@ -508,6 +523,7 @@ var MemoryUnitDisplay = {
 
 		// Create Select element containing different display modes
 		var menu = $(document.createElement('select'));
+		menu.addClass('value_display');
 		menu.append('<option class="value">'+this.memoryUnit.value+'</option>');
 		menu.append('<option class="ascii_value">'+this.memoryUnit.valueChar()+'</option>');
 		menu.append('<option class="hex_value" selected="selected">&#36;'+this.memoryUnit.valueHex(2)+'</option>');

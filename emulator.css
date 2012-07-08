@@ -239,6 +239,10 @@ div#program_editor {
 	font-size: 1.0em;
 }
 
+.register select.value_display {
+	width: 5em;
+}
+
 .register > .bit_box {
 	/* Styling */
 	margin: 0px;
@@ -257,15 +261,15 @@ div#program_editor {
 	box-flex: 1;			
 }
 
-.register > .bit_box:nth-of-type(4n + 1) {
+.register > .bit_box:nth-of-type(4n+1) {
 	/* Styling */
 	border-left: 3px solid black;
 	padding-left: 0px;
 }
 
-.register > .bit_box:nth-of-type(0) {
+.register > input.bit_box:nth-of-type(1) {
 	padding: 3px;
-	border: none;	
+	border-left: 1px solid black;
 }
 
 
@@ -388,7 +392,7 @@ div#program_editor {
 	font-family: monospace;
 }
 
-.memory_unit > select {
+select.value_display {
 	/* Styling */
 	width: 4em;
 	padding-left: 5px;
