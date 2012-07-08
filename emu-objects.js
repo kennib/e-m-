@@ -153,6 +153,10 @@ function MemoryUnit(address) {
 	this.valueHex = function(padding) {
 		return this.value.toHex(padding);
 	}
+	
+	this.valueChar = function() {
+		return "'"+this.value.toChar()+"'";
+	}
 }
 
 /*******************************************************

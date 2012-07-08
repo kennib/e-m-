@@ -504,9 +504,14 @@ var MemoryUnitDisplay = {
 		memUnit.attr("id", this.id);
 		memUnit.addClass("memory_unit");
 		memUnit.append('<span class="address">'+this.memoryUnit.addressHex(4)+'</span>');
-		memUnit.append('<span class="value">'+this.memoryUnit.value+'</span>');
-		memUnit.append('<span class="hex_value">&#36;'+this.memoryUnit.valueHex(2)+'</span>');
 		this.element.append(memUnit);
+
+		// Create Select element containing different display modes
+		var menu = $(document.createElement('select'));
+		menu.append('<option class="value">'+this.memoryUnit.value+'</option>');
+		menu.append('<option class="ascii_value">'+this.memoryUnit.valueChar()+'</option>');
+		menu.append('<option class="hex_value" selected="selected">&#36;'+this.memoryUnit.valueHex(2)+'</option>');
+		memUnit.append(menu);
 		
 		
 		// Add address and value information when value changes
@@ -515,8 +520,9 @@ var MemoryUnitDisplay = {
 			if (this.set)
 				memUnit.addClass("memory_unit_set");
 			// Change data
-			memUnit.children(".value").html(this.value);
-			memUnit.children(".hex_value").html('&#36;'+this.valueHex(2));
+			menu.children(".value").html(this.value);
+			menu.children(".ascii_value").html(this.valueChar());
+			menu.children(".hex_value").html('&#36;'+this.valueHex(2));
 		};
 		
 		this.memoryUnit.onValueChanged();
