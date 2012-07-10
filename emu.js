@@ -64,12 +64,18 @@ $(document).ready(function() {
 		registers: registers
 	});
 	
+	// Create the display for the clocks
+	$.widget("ui.clocks", ClocksDisplay);
+	$("#clock_block").clocks({
+		microcontroller: mc
+	});
+	
 	// Create the controls for the microcontroller
 	$.widget("ui.controls", ControlDisplay);
 	var controller = $("#control_block").controls({
 		microcontroller: mc
 	});
-	
+
 	// Create the tabbed program editor
 	$("#program_editor").tabs({
 		select: function(event, ui) {

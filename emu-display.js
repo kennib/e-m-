@@ -1,5 +1,62 @@
 /*******************************************************
 *
+* Clock display
+*
+********************************************************/
+
+var ClockDisplay = {
+	_init: function(options) {
+		// Data properties
+		this.name = this.options.name;
+		this.clock = this.options.clock;
+		
+		// Add a diagram and name
+		this.element.append('<canvas class="clock_diagram" id="'+this.name+'"></canvas>'
+			+'<span>'+this.name+'</span>');
+		
+		// Update value when clock changes
+		var self = this;
+		this.clock.change(function() {
+			self.update(self.clock.value);
+		});
+	},
+	
+	update: function(value) {
+		this.element.children('span').html(this.name+' '+value);
+	}
+}
+
+/*******************************************************
+*
+* Clocks display
+*
+********************************************************/
+
+var ClocksDisplay = {
+	_init: function(options) {
+		// Display properties
+		this.id = "clock_display";
+		
+		// Data properties
+		this.microcontroller = this.options.microcontroller;
+		
+		// Create Clock widget
+		$.widget("ui.clock", ClockDisplay);
+		
+		// Create the clock displays
+		for (clock in this.microcontroller.clocks) {
+			var c = $(document.createElement('div'));
+			c.clock({
+				name: clock,
+				clock: this.microcontroller.clocks[clock]
+			});
+			this.element.append(c);
+		}
+	},
+}
+
+/*******************************************************
+*
 * Control display
 *
 ********************************************************/
