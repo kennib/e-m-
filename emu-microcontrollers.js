@@ -12,6 +12,11 @@
 ************************************************************/
 
 function Motorola68HC11() {
+	// Create clocks
+	var clocks = {
+		"e-clock": new Clock(16)
+	};
+	
     // Create Registers
     var registers = new Registers({
         A: new Register(8),
@@ -64,13 +69,16 @@ function Motorola68HC11() {
 			bytes.push(this.memory.getUnit(this.programCounter.value).value);
 			this.programCounter.value++;
 		}
-
+		
         var val = op.execute(this, bytes);
 		mc.conditionCodes(op, val);
+		for (clock in mc.clocks)
+			mc.clocks[clock].value += op.clocks;
     }
 
 	// Create microController object
 	var mc = new MicroController({
+		clocks: clocks,
 		registers: registers,
 		memorySize: 0xFFFF,
 		memoryMap: memoryMap,

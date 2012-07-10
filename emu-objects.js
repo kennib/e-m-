@@ -1,4 +1,48 @@
 /*******************************************************
+* Clock Object
+* 
+* Has a size (bits) and a prescaler
+* Method to update value
+* Method to get the value
+********************************************************/
+
+function Clock(bits, prescaler) {
+	// Clock Properties
+	this.bits = bits;
+	this.prescaler = (prescaler) ? 1 : prescaler;
+	var value = 0;
+	this.changeCallbacks = [];
+	
+	// Clock Methods
+	// Method to add functions to value changed callback
+	// or execute all of the callbacks
+	this.change = function (f) {
+		if (f) {
+			this.changeCallbacks.push(f);
+		} else {
+			for(var f in this.changeCallbacks)
+				this.changeCallbacks[f](this);
+		}
+			
+	};
+	
+	// Getter for the register's value
+	this.__defineGetter__("value", function() {
+		return value;
+	});
+	
+	// Setter for the register's value
+	this.__defineSetter__("value", function(val) {
+		value = val.byteWrap(this.bits);
+		this.change();
+	});
+	
+	this.valueHex = function(padding) {
+		return this.value.toHex(padding);
+	}
+}
+
+/*******************************************************
 * Register Object
 * 
 * Has a size (bits) and values
@@ -301,6 +345,7 @@ function Memory(size) {
 
 function MicroController(properties) {
 	// MicroController Components
+	this.clocks = properties.clocks;
 	this.registers = properties.registers;
 	this.memory = new Memory(properties.memorySize);
 	this.memory.setMemoryMap(properties.memoryMap);
