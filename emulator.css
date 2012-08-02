@@ -240,7 +240,7 @@ div#program_editor {
 }
 
 .register select.value_display {
-	width: 5em;
+	width: 6em;
 }
 
 .register > .bit_box {
@@ -394,7 +394,7 @@ div#program_editor {
 
 select.value_display {
 	/* Styling */
-	width: 4em;
+	width: 5em;
 	padding-left: 5px;
 	margin: 0px 8px;
 
