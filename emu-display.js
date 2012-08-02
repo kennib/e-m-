@@ -178,14 +178,59 @@ var RegisterDisplay = {
 		name.html(this.options.registerName);
 		this.container.append(name);
 		
+		// Make the register link to its memory address
+		var self = this;
+		name.click(function(){
+			// Round the position to the nearest 8 bytes
+			var pos = Math.floor(self.registerObject.value/8)*8;
+			$("#memory_display").MemoryScrollbar("setRange", pos);
+		});
+		
+		// Create Select element containing different display modes
+		var hex_digits = this.registerObject.bits/4;
+		this.menu = $(document.createElement('select'));
+		this.menu.addClass('value_display');
+		this.menu.append('<option class="value">'+this.registerObject.value+'</option>');
+		this.menu.append('<option class="ascii_value">'+this.registerObject.valueChar()+'</option>');
+		this.menu.append('<option class="hex_value" selected="selected">&#36;'+this.registerObject.valueHex(hex_digits)+'</option>');
+		this.container.append(this.menu);
+		
 		// Create boxes for register's bits
+		var boxes = [];
 		for (var b=0; b<this.registerObject.bits; b++) {
 			var box = $(document.createElement('input'));
+			boxes[b] = box;
 			box.attr("size", 1);
 			box.attr("maxlength", 1);
 			box.addClass("bit_box");
 			box.change(function(){ widget.editBits() });
 			
+			// Select text in box on focus
+			box.click(function() { $(this).select(); });
+			
+			// Make cursor jump from box to box
+			if (b != this.registerObject.bits-1) {
+				boxes[b].keyup(function() {
+					if ($(this).val().length == 1) {
+						$(this).next().focus();
+						$(this).next().select();
+					} else {
+						$(this).prev().focus();
+						$(this).prev().select();
+					}
+				});
+			} else {
+				boxes[b].keyup(function() {
+					if ($(this).val().length == 1) {
+						$(this).siblings('.bit_box:first').focus();
+						$(this).siblings('.bit_box:first').select();
+					} else {
+						$(this).prev().focus();
+						$(this).prev().select();
+					}
+				});
+			}
+
 			this.container.append(box);
 		}
 		
@@ -198,6 +243,12 @@ var RegisterDisplay = {
 		this.container.children(".bit_box").each(function(index) {
 			$(this).val(bits[index]);
 		});
+		
+		// Update menu
+		var hex_digits = this.registerObject.bits/4;
+		this.menu.children(".value").html(this.registerObject.value);
+		this.menu.children(".ascii_value").html(this.registerObject.valueChar());
+		this.menu.children(".hex_value").html('&#36;'+this.registerObject.valueHex(hex_digits));
 	},
 	
 	// Method to update register data when bits are editted
@@ -252,14 +303,6 @@ var RegistersDisplay  = {
 *
 ********************************************************/
 
-String.prototype.hexString = function(length) {
-	var str = this.toString(16);
-    while (str.length < length)
-        str = '0' + str;
-    str = str.toUpperCase();
-    return str;
-}
-		
 /*******************************************************
 * Labels Display - Memory Units
 ********************************************************/
@@ -399,6 +442,8 @@ var MemoryScrollbar = {
 
 	// Method to set the range selected by the scrollbar
 	setRange: function(start, end) {
+		if (end == undefined) { end = start + this.min_units; }
+		
 		// Ensure correct range
 		if (end >= this.memoryObject.size) end = this.memoryObject.size;
 		if (start < 0) start = 0;
@@ -423,8 +468,8 @@ var MemoryScrollbar = {
 		
 		// Update textboxes
 		range = this.getRange();
-		start = range[0].toString(16).hexString(4);
-		size = (range[1]-range[0]).toString(16).hexString(4);
+		start = range[0].toHex(4);
+		size = (range[1]-range[0]).toHex(4);
 		this.text_start.val(start);
 		this.text_size.val(size);
 	},
@@ -483,9 +528,15 @@ var MemoryUnitDisplay = {
 		memUnit.attr("id", this.id);
 		memUnit.addClass("memory_unit");
 		memUnit.append('<span class="address">'+this.memoryUnit.addressHex(4)+'</span>');
-		memUnit.append('<span class="value">'+this.memoryUnit.value+'</span>');
-		memUnit.append('<span class="hex_value">&#36;'+this.memoryUnit.valueHex(2)+'</span>');
 		this.element.append(memUnit);
+
+		// Create Select element containing different display modes
+		var menu = $(document.createElement('select'));
+		menu.addClass('value_display');
+		menu.append('<option class="value">'+this.memoryUnit.value+'</option>');
+		menu.append('<option class="ascii_value">'+this.memoryUnit.valueChar()+'</option>');
+		menu.append('<option class="hex_value" selected="selected">&#36;'+this.memoryUnit.valueHex(2)+'</option>');
+		memUnit.append(menu);
 		
 		
 		// Add address and value information when value changes
@@ -494,8 +545,9 @@ var MemoryUnitDisplay = {
 			if (this.set)
 				memUnit.addClass("memory_unit_set");
 			// Change data
-			memUnit.children(".value").html(this.value);
-			memUnit.children(".hex_value").html('&#36;'+this.valueHex(2));
+			menu.children(".value").html(this.value);
+			menu.children(".ascii_value").html(this.valueChar());
+			menu.children(".hex_value").html('&#36;'+this.valueHex(2));
 		};
 		
 		this.memoryUnit.onValueChanged();

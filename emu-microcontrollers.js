@@ -137,9 +137,9 @@ function Motorola68HC11() {
 			}
 			if (bit != undefined) {
 				if (bit)
-					condition.value |= (1<<c);
+					condition.value = condition.value.bitSet(c);
 				else
-					condition.value &= ~(1<<c);
+					condition.value = condition.value.bitUnset(c);
 			}
 		}
 	}
@@ -307,8 +307,7 @@ function Motorola68HC11() {
 			var d = (a.value << 8) + b.value;
 			var s = (memory[0].value << 8) + memory[1].value;
 			d += s;
-			while(d > 65535)
-				d -= 65536;
+			d = d.byteWrap(16);
 			a.value = (d >> 8) & 0x00FF;
 			b.value = d & 0x00FF;
 		}, 2
@@ -366,8 +365,7 @@ function Motorola68HC11() {
 			var d = (a.value << 8) + b.value;
 			var s = (memory[0].value << 8) + memory[1].value;
 			d -= s;
-			while(d < 0)
-				d += 65536;
+			d = d.byteWrap(16);
 			a.value = (d >> 8) & 0x00FF;
 			b.value = d & 0x00FF;
 		},

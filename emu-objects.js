@@ -35,11 +35,7 @@ function Register(bits, index) {
 
 	// Setter for the register's value
 	this.__defineSetter__("value", function(val) {
-		value = val;
-		while(value < 0)
-			value += Math.pow(2, this.bits);
-		while(value > Math.pow(2, this.bits) - 1)
-			value -= Math.pow(2, this.bits);
+		value = val.byteWrap(this.bits);
 		this.change();
 	});
 	
@@ -52,6 +48,14 @@ function Register(bits, index) {
 		}
 		
 		return bits;
+	}
+	
+	this.valueHex = function(padding) {
+		return this.value.toHex(padding);
+	}
+	
+	this.valueChar = function() {
+		return "'"+this.value.toChar()+"'";
 	}
 }
 
@@ -141,11 +145,7 @@ function MemoryUnit(address) {
 
 	// Setter for value of the MemoryUnit
 	this.__defineSetter__("value", function(val) {
-		value = val;
-		while(value > 255)
-			value -= 256;
-		while(value < 0)
-			value += 256;
+		value = val.byteWrap(8);
 		this.set = true;
 		
 		if (this.onValueChanged)
@@ -155,22 +155,15 @@ function MemoryUnit(address) {
 	// Returns the unit's address in hex
 	// pads with leading zeros if given parameter
 	this.addressHex = function(padding) {
-		if (!padding) padding = 0;
-		for (var pad=""; pad.length < padding; pad+="0");
-		
-		var hex = this.address.toString(16).toUpperCase();
-		
-		return (pad+hex).slice(-padding);
+		return this.address.toHex(padding);
 	}
 	
 	this.valueHex = function(padding) {
-		if (!padding) padding = 0;
-		for (var pad=""; pad.length < padding; pad+="0");
-		
-		var value = this.value;
-		var hex = value.toString(16).toUpperCase();
-		
-		return (pad+hex).slice(-padding);
+		return this.value.toHex(padding);
+	}
+	
+	this.valueChar = function() {
+		return "'"+this.value.toChar()+"'";
 	}
 }
 
