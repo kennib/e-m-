@@ -433,7 +433,7 @@ canvas.clock_diagram {
 select.value_display {
 	/* Styling */
 	width: 4em;
-	padding-left: 5px;
+	padding-left: 0px;
 	margin: 0px 8px;
 
 	font-family: monospace;
