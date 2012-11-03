@@ -13,7 +13,7 @@
 		<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
 		<script type="text/javascript" src="jquery-ui-1.8.18.custom.min.js"></script>
 		<!-- Ace editor scripts-->
-		<script type="text/javascript" src="ace/src/ace.js"></script>
+		<script type="text/javascript" src="ace/ace.js"></script>
 		<!-- e-mu scripts-->
 		<script type="text/javascript" src="emu-utils.js"></script>
 		<script type="text/javascript" src="emu-objects.js"></script>
@@ -72,11 +72,9 @@ phrase:
 		</div>
 	</div>
 
-	<script type="text/javascript" src="ace/src/mode-c_cpp.js"></script>
-	<script type="text/javascript" src="ace/src/theme-twilight.js"></script>
+	<script type="text/javascript" src="ace/mode-asm68hc11.js"></script>
+	<script type="text/javascript" src="ace/theme-dark.js"></script>
 	<script>
-		var CMode = require("ace/mode/c_cpp").Mode;
-		
 		var editors = {"program_source": 0,
 			"program_listing": 0,
 			"program_assembly": 0,
@@ -85,8 +83,8 @@ phrase:
 		for (var e in editors) {
 			var editor = ace.edit(e);
 			editors[e] = editor;
-			editor.setTheme("ace/theme/twilight");
-			editor.getSession().setMode(new CMode());
+			editor.setTheme("ace/theme/dark");
+			editor.getSession().setMode("ace/mode/asm68hc11");
 		}
 	</script>
 	
