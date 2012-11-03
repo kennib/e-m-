@@ -41,7 +41,7 @@
 *   This program writes a series of
 *   characters from a phrase to PORTB
 ****************************************
-REGBASE EQU     $1000       /* Start address for registers */
+REGBASE EQU     $1000       * Start address for registers
 PORTB   EQU     $04
 
         ORG     $0000
@@ -50,11 +50,11 @@ init:
         LDX     #phrase
         LDY     #REGBASE
 loop:
-        LDAA    0,x         /* Get char from phrase */
-        BEQ     init        /* Reset if null char */
-        STAA    PORTB,y     /* Write char to register1 */
-        INCX                /* Next char */
-        JMP     loop        /* loop forever */
+        LDAA    0,x         * Get char from phrase
+        BEQ     init        * Reset if null char
+        STAA    PORTB,y     * Write char to register1
+        INCX                * Next char
+        JMP     loop        * loop forever
 phrase:
         FCB     "Hello, world!"
 </div>
