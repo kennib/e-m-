@@ -485,6 +485,14 @@ function Motorola68HC11() {
       mc.registers.getRegister("SP").value = mc.registers.getRegister("Y").value - 1;
     }
   );
+
+  // Miscellaneous opcodes
+  mc.addMultiAddressOp(opcodes68HC11["TPA"],
+    function(mc, memory) {
+      mc.registers.getRegister("A").value = mc.registers.getRegister("CC").value;
+      return mc.registers.getRegister("A").value;
+    }
+  );
 	
 	// Return the MicroController object
 	return mc;
