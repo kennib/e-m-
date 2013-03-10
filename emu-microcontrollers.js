@@ -490,7 +490,11 @@ function Motorola68HC11() {
   mc.addMultiAddressOp(opcodes68HC11["TPA"],
     function(mc, memory) {
       mc.registers.getRegister("A").value = mc.registers.getRegister("CC").value;
-      return mc.registers.getRegister("A").value;
+    }
+  );
+  mc.addMultiAddressOp(opcodes68HC11["TAP"],
+    function(mc, memory) {
+      mc.registers.getRegister("CC").value = mc.registers.getRegister("A").value;
     }
   );
 	
