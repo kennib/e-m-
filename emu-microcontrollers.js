@@ -483,6 +483,11 @@ function Motorola68HC11() {
 			mc.registers.getRegister("Y").value = (memory[0].value<<8)+memory[1].value;
 		}
 	);
+	mc.addMultiAddressOp(opcodes68HC11["LDS"],
+		function(mc, memory) {
+			mc.registers.getRegister("SP").value = (memory[0].value<<8)+memory[1].value;
+		}
+	);
   mc.addMultiAddressOp(opcodes68HC11["TSX"],
     function(mc, memory) {
       mc.registers.getRegister("X").value = mc.registers.getRegister("SP").value + 1;
