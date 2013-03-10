@@ -259,7 +259,25 @@ function Motorola68HC11() {
 			mc.registers.getRegister("SP").value++;
 		}
 	);
-	
+
+	// And operations
+	mc.addMultiAddressOp(opcodes68HC11["ANDA"],
+	  function(mc, memory) {
+			var a = mc.registers.getRegister("A").value;
+			var mem = memory[0].value;
+			var res = a & mem;
+			mc.registers.getRegister("A").value = res;
+		}
+	);
+	mc.addMultiAddressOp(opcodes68HC11["ANDB"],
+	  function(mc, memory) {
+			var b = mc.registers.getRegister("B").value;
+			var mem = memory[0].value;
+			var res = b & mem;
+			mc.registers.getRegister("B").value = res;
+		}
+	);
+
 	// Addition operations
 	mc.addMultiAddressOp(opcodes68HC11["ABA"],
 		function(mc, memory) {
