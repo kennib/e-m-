@@ -465,6 +465,26 @@ function Motorola68HC11() {
 			mc.registers.getRegister("Y").value = (memory[0].value<<8)+memory[1].value;
 		}
 	);
+  mc.addMultiAddressOp(opcodes68HC11["TSX"],
+    function(mc, memory) {
+      mc.registers.getRegister("X").value = mc.registers.getRegister("SP").value + 1;
+    }
+  );
+  mc.addMultiAddressOp(opcodes68HC11["TSY"],
+    function(mc, memory) {
+      mc.registers.getRegister("Y").value = mc.registers.getRegister("SP").value + 1;
+    }
+  );
+  mc.addMultiAddressOp(opcodes68HC11["TXS"],
+    function(mc, memory) {
+      mc.registers.getRegister("SP").value = mc.registers.getRegister("X").value - 1;
+    }
+  );
+  mc.addMultiAddressOp(opcodes68HC11["TYS"],
+    function(mc, memory) {
+      mc.registers.getRegister("SP").value = mc.registers.getRegister("Y").value - 1;
+    }
+  );
 	
 	// Return the MicroController object
 	return mc;
