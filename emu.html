@@ -4,93 +4,26 @@
 	<head>
 		<title>e-mu - the online microproccessor emulator</title>
 
-		<link rel="stylesheet" type="text/css" href="jquery-ui.css">
-		<link rel="stylesheet" type="text/css" href="jquery-ui-emu.css">
-		<link rel="stylesheet" type="text/css" href="emu.css">
-		<link rel="stylesheet" type="text/css" href="emulator.css">
-
+		<!-- angular scripts-->
+		<script type="text/javascript" src="lib/angular.min.js"></script>
 		<!-- JQuery scripts-->
-		<script type="text/javascript" src="jquery-1.7.1.min.js"></script>
-		<script type="text/javascript" src="jquery-ui-1.8.18.custom.min.js"></script>
-		<!-- Ace editor scripts-->
-		<script type="text/javascript" src="ace/src/ace.js"></script>
+		<script type="text/javascript" src="lib/jquery.min.js"></script>
 		<!-- e-mu scripts-->
-		<script type="text/javascript" src="emu-utils.js"></script>
-		<script type="text/javascript" src="emu-objects.js"></script>
-		<script type="text/javascript" src="opcodes68HC11.js"></script>
-		<script type="text/javascript" src="emu-microcontrollers.js"></script>
-		<script type="text/javascript" src="emu-display.js"></script>
-		<script type="text/javascript" src="emu.js"></script>
+		<script type="text/javascript" src="emu/memory.js"></script>
+		<script type="text/javascript" src="emu/emu.js"></script>
+		<!-- microcontroller scripts-->
+		<script type="text/javascript" src="micros/68hc11.js"></script>
 	</head>
 	
-	<body>
-
-	<div id="emulator">
-		<div id="left_col" class="col">
-			<div id="program_editor">
-				<ul>
-					<li><a href="#program_source">Source</a></li>
-					<li id="assemble" title="Assemble"><a href="#program_listing">&#9654;</a></li>
-					<li><a href="#program_assembly">Assembly</a></li>
-					<li><a href="#program_listing">Listing</a></li>
-					<li id="load" title="Load"><a href="#program_listing">&#9654;</a></li>
-					<li id="assemble_load" title="Assemble and Load"><a href="#program_listing">&#9654;&#9654;</a></li>
-				</ul>
-<div id="program_source" class="tab">****************************************
-*   -- Sample Program --
-*   This program writes a series of
-*   characters from a phrase to PORTB
-****************************************
-REGBASE EQU     $1000       /* Start address for registers */
-PORTB   EQU     $04
-
-        ORG     $0000
-
-init:
-        LDX     #phrase
-        LDY     #REGBASE
-loop:
-        LDAA    0,x         /* Get char from phrase */
-        BEQ     init        /* Reset if null char */
-        STAA    PORTB,y     /* Write char to register1 */
-        INCX                /* Next char */
-        JMP     loop        /* loop forever */
-phrase:
-        FCB     "Hello, world!"
-</div>
-				<div id="program_assembly" class="tab"></div>
-				<div id="program_listing" class="tab"></div>
-			</div>
+	<body ng-app="68hc11.micro">
+		<div ng-controller="MemoryDisplay">
+			{{memory.size()}}
+			<ul>
+				<li ng-repeat="unit in memory.range(0, 10)">
+					{{unit}}
+				</li>
+			</ul>
 		</div>
-		<div id="right_col" class="col">
-			<div id="register_block">
-			</div>
-			<div id="control_block">
-			</div>
-			<div id="memory_block">
-			</div>
-		</div>
-	</div>
-
-	<script type="text/javascript" src="ace/src/mode-c_cpp.js"></script>
-	<script type="text/javascript" src="ace/src/theme-twilight.js"></script>
-	<script>
-		var CMode = require("ace/mode/c_cpp").Mode;
-		
-		var editors = {"program_source": 0,
-			"program_listing": 0,
-			"program_assembly": 0,
-		};
-		
-		for (var e in editors) {
-			var editor = ace.edit(e);
-			editors[e] = editor;
-			editor.setTheme("ace/theme/twilight");
-			editor.getSession().setMode(new CMode());
-		}
-	</script>
-	
 	</body>
 </html>
-	
 
