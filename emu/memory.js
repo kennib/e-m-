@@ -41,3 +41,10 @@ emu.controller('MemoryDisplay',
 function($scope, memory) {
 	$scope.memory = memory;
 });
+
+emu.filter('default', function() {
+	return function(text, def) {
+		if(text === undefined) return def;
+		else return text;
+	};
+});
