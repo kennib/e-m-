@@ -7,7 +7,7 @@ try:
 except:
 	import simplejson as json
 
-print "Content-Type: spplication/json"
+print "Content-Type: application/json"
 print
 
 form = cgi.FieldStorage()
