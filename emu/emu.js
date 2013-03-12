@@ -1,7 +1,8 @@
 angular.module('emu')
-.config(function(memoryProvider) {
-	console.log('configuring emu');
+.config(function(memoryProvider, editorProvider) {
 	memoryProvider.options({
 		size: 20,
+	});
+	editorProvider.options({
 	});
 });
