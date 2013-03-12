@@ -29,7 +29,5 @@ function() {
 
 emu.controller('Editor',
 function($scope, editor) {
-	console.log('creating');
 	editor.create();
-	console.log('created');
 });

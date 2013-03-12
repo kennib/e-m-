@@ -3,6 +3,8 @@
 <html>
 	<head>
 		<title>e-mu - the online microproccessor emulator</title>
+		<link rel="stylesheet" type="text/css" href="styles/emu.css">
+		<link rel="stylesheet" type="text/css" href="styles/codemirror.css">
 
 		<!-- angular scripts-->
 		<script type="text/javascript" src="lib/angular.min.js"></script>
@@ -10,7 +12,6 @@
 		<script type="text/javascript" src="lib/jquery.min.js"></script>
 		<!-- codemirror -->
 		<script type="text/javascript" src="lib/codemirror.js"></script>
-		<link rel="stylesheet" type="text/css" href="lib/codemirror.css">
 		<!-- e-mu scripts-->
 		<script type="text/javascript" src="emu/memory.js"></script>
 		<script type="text/javascript" src="emu/editor.js"></script>
@@ -20,13 +21,13 @@
 	</head>
 	
 	<body ng-app="68hc11.micro">
-		<div ng-controller="Editor" id="editor">
+		<div ng-controller="Editor" id="editor" class="editor">
 		</div>
-		<div ng-controller="MemoryDisplay">
+		<div ng-controller="MemoryDisplay" class="memory-display">
 			{{memory.size()}}
-			<ul>
+			<ul class="memory-list">
 				<li ng-repeat="unit in memory.range(0, 10)">
-					{{unit}}
+					{{unit | default:0}}
 				</li>
 			</ul>
 		</div>
